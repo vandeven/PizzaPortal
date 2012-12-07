@@ -8,6 +8,9 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 
+import nl.topicus.cobra.dao.BatchDataAccessHelper;
+import nl.topicus.cobra.dao.DataAccessRegistry;
+import nl.topicus.cobra.entities.IdObject;
 import nl.topicus.cobra.entities.TransientIdObject;
 
 import org.hibernate.annotations.AccessType;
@@ -107,5 +110,60 @@ public class Entiteit implements Serializable, TransientIdObject
 			// Else fallthrough naar false...
 		}
 		return false;
+	}
+
+	protected <T extends IdObject> BatchDataAccessHelper<T> getBatchDataAccessHelper()
+	{
+		return DataAccessRegistry.getHelper(BatchDataAccessHelper.class);
+	}
+
+	public Serializable save()
+	{
+		return getBatchDataAccessHelper().save(this);
+	}
+
+	public void update()
+	{
+		getBatchDataAccessHelper().update(this);
+	}
+
+	public void saveOrUpdate()
+	{
+		getBatchDataAccessHelper().saveOrUpdate(this);
+	}
+
+	public void delete()
+	{
+		getBatchDataAccessHelper().delete(this);
+	}
+
+	public void commit()
+	{
+		getBatchDataAccessHelper().batchExecute();
+	}
+
+	public final Serializable saveAndCommit()
+	{
+		Serializable ret = save();
+		commit();
+		return ret;
+	}
+
+	public final void updateAndCommit()
+	{
+		update();
+		commit();
+	}
+
+	public final void saveOrUpdateAndCommit()
+	{
+		saveOrUpdate();
+		commit();
+	}
+
+	public final void deleteAndCommit()
+	{
+		delete();
+		commit();
 	}
 }
