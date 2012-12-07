@@ -7,6 +7,8 @@ import nl.topicus.onderwijs.entities.Account;
 
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebApplication;
+import org.cdiadvocate.beancontainer.BeanContainer;
+import org.cdiadvocate.beancontainer.BeanContainerManager;
 
 /**
  * Application object for your web application. If you want to run this application
@@ -18,7 +20,10 @@ public class WicketApplication extends WebApplication
 {
 	private static final String PERSISTENCE_UNIT_NAME = "todos";
 
-	private EntityManagerFactory factory;
+	private static BeanContainer beanContainer = BeanContainerManager.getInstance();
+
+	private static EntityManagerFactory factory = Persistence
+		.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 
 	/**
 	 * @see org.apache.wicket.Application#getHomePage()
@@ -37,9 +42,6 @@ public class WicketApplication extends WebApplication
 	{
 		super.init();
 
-		// add your configuration here
-		setPersistenceFactory(Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME));
-
 		Account newAccount = new Account();
 		newAccount.setGebruikersnaam("pietje");
 		newAccount.saveOrUpdateAndCommit();
@@ -50,8 +52,9 @@ public class WicketApplication extends WebApplication
 		return factory;
 	}
 
-	public void setPersistenceFactory(EntityManagerFactory factory)
+	public static BeanContainer getBeanContainer()
 	{
-		this.factory = factory;
+		return beanContainer;
 	}
+
 }

@@ -1,22 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-   Licensed to the Apache Software Foundation (ASF) under one or more
-   contributor license agreements.  See the NOTICE file distributed with
-   this work for additional information regarding copyright ownership.
-   The ASF licenses this file to You under the Apache License, Version 2.0
-   (the "License"); you may not use this file except in compliance with
-   the License.  You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
--->
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<!-- Licensed to the Apache Software Foundation (ASF) under one or more contributor 
+	license agreements. See the NOTICE file distributed with this work for additional 
+	information regarding copyright ownership. The ASF licenses this file to 
+	You under the Apache License, Version 2.0 (the "License"); you may not use 
+	this file except in compliance with the License. You may obtain a copy of 
+	the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required 
+	by applicable law or agreed to in writing, software distributed under the 
+	License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS 
+	OF ANY KIND, either express or implied. See the License for the specific 
+	language governing permissions and limitations under the License. -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
@@ -24,8 +17,8 @@
 		<groupId>nl.topicus.onderwijs</groupId>
 		<artifactId>onderwijs-project-parent</artifactId>
 		<version>2012.2.27</version>
-	</parent>	
-	
+	</parent>
+
 	<repositories>
 		<repository>
 			<id>Apache Nexus</id>
@@ -38,29 +31,34 @@
 			</snapshots>
 		</repository>
 		<repository>
-		   <id>EclipseLink</id>
-		   <url>http://download.eclipse.org/rt/eclipselink/maven.repo</url>
+			<id>EclipseLink</id>
+			<url>http://download.eclipse.org/rt/eclipselink/maven.repo</url>
 		</repository>
-		  <repository>
-        <id>glassfish</id>
-        <name>Glassfish</name>
-        <url>https://repository.jboss.org/nexus/content/repositories/glassfish</url>
-      </repository>
+		<repository>
+			<id>glassfish</id>
+			<name>Glassfish</name>
+			<url>https://repository.jboss.org/nexus/content/repositories/glassfish</url>
+		</repository>
+		<repository>
+			<id>cdi.advocate</id>
+			<name>CDI Advocacy</name>
+			<url>http://jee6-cdi.googlecode.com/svn/m2/repository/</url>
+		</repository>
+		<repository>
+			<id>jboss.maven.repo</id>
+			<name>JBoss Repository</name>
+			<url>http://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+		</repository>
 	</repositories>
-	
+
 	<groupId>nl.topicus.onderwijs</groupId>
 	<artifactId>pizzaportal</artifactId>
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
-		<!-- TODO project name  -->
+	<!-- TODO project name -->
 	<name>quickstart</name>
 	<description></description>
-	<!--
-		<organization>
-			<name>company name</name>
-			<url>company url</url>
-		</organization>
-	-->
+	<!-- <organization> <name>company name</name> <url>company url</url> </organization> -->
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>
@@ -75,19 +73,15 @@
 		<eclipselink.version>2.4.1</eclipselink.version>
 	</properties>
 	<dependencies>
-		<!--  WICKET DEPENDENCIES -->
+		<!-- WICKET DEPENDENCIES -->
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket-core</artifactId>
 			<version>${wicket.version}</version>
 		</dependency>
-		<!-- OPTIONAL DEPENDENCY
-		<dependency>
-			<groupId>org.apache.wicket</groupId>
-			<artifactId>wicket-extensions</artifactId>
-			<version>${wicket.version}</version>
-		</dependency>
-		-->
+		<!-- OPTIONAL DEPENDENCY <dependency> <groupId>org.apache.wicket</groupId> 
+			<artifactId>wicket-extensions</artifactId> <version>${wicket.version}</version> 
+			</dependency> -->
 
 		<!-- LOGGING DEPENDENCIES - LOG4J -->
 		<dependency>
@@ -101,7 +95,7 @@
 			<version>1.2.16</version>
 		</dependency>
 
-		<!--  JUNIT DEPENDENCY FOR TESTING -->
+		<!-- JUNIT DEPENDENCY FOR TESTING -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -109,21 +103,21 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!--  JETTY DEPENDENCIES FOR TESTING  -->
+		<!-- JETTY DEPENDENCIES FOR TESTING -->
 		<dependency>
 			<groupId>org.eclipse.jetty.aggregate</groupId>
 			<artifactId>jetty-all-server</artifactId>
 			<version>${jetty.version}</version>
 			<scope>provided</scope>
 		</dependency>
-		
+
 		<!-- COBRA -->
 		<dependency>
 			<groupId>nl.topicus.cobra</groupId>
 			<artifactId>cobra-kitchensink</artifactId>
 		</dependency>
-		
-		<!--  ECLIPSE LINK -->
+
+		<!-- ECLIPSE LINK -->
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
 			<artifactId>eclipselink</artifactId>
@@ -135,11 +129,29 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		     <dependency>
-        <groupId>org.apache.derby</groupId>
-        <artifactId>derby</artifactId>
-        <version>10.1.1.0</version>
-      </dependency>
+		<dependency>
+			<groupId>org.apache.derby</groupId>
+			<artifactId>derby</artifactId>
+			<version>10.1.1.0</version>
+		</dependency>
+
+		<!-- WELD -->
+		<dependency>
+			<groupId>org.cdiadvocate</groupId>
+			<artifactId>cdiadvocate-api</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>1.0.0.GA</version>
+		</dependency>
+		<dependency>
+			<groupId>org.cdiadvocate</groupId>
+			<artifactId>cdiadvocate-weld-impl</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+
 	</dependencies>
 	<build>
 		<resources>
@@ -209,4 +221,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	</project>
+</project>
