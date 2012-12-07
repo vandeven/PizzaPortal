@@ -94,6 +94,12 @@
 			<version>${jetty.version}</version>
 			<scope>provided</scope>
 		</dependency>
+		
+		<!-- COBRA -->
+		<dependency>
+			<groupId>nl.topicus.cobra</groupId>
+			<artifactId>cobra-kitchensink</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<resources>
