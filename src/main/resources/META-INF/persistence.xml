@@ -6,9 +6,10 @@
   	<class>nl.topicus.onderwijs.entities.Entiteit</class>
    	<class>nl.topicus.onderwijs.entities.Account</class>
   	<class>nl.topicus.onderwijs.entities.Evenement</class>
-  	<class>nl.topicus.onderwijs.entities.EvenementDeelnamne</class>
-  	<class>nl.topicus.onderwijs.entities.EvenementMaaltijd</class>
+  	<class>nl.topicus.onderwijs.entities.EvenementDeelname</class>
   	<class>nl.topicus.onderwijs.entities.Maaltijd</class>
+  	<class>nl.topicus.onderwijs.entities.EvenementMaaltijd</class>
+
 
     <properties>
       <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver" />
