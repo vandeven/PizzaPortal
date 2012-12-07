@@ -4,7 +4,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import nl.topicus.onderwijs.entities.Account;
-import nl.topicus.onderwijs.providers.AccountProvider;
 
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebApplication;
@@ -40,15 +39,10 @@ public class WicketApplication extends WebApplication
 
 		// add your configuration here
 		setPersistenceFactory(Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME));
-		AccountProvider acc = new AccountProvider();
 
-		acc.begin();
 		Account newAccount = new Account();
 		newAccount.setGebruikersnaam("pietje");
-
-		acc.persist(newAccount);
-		acc.commit();
-		acc.end();
+		newAccount.saveOrUpdateAndCommit();
 	}
 
 	public EntityManagerFactory getPersistenceFactory()

@@ -2,17 +2,17 @@ package nl.topicus.onderwijs.entities;
 
 import java.io.Serializable;
 
+import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 
-import nl.topicus.cobra.dao.BatchDataAccessHelper;
-import nl.topicus.cobra.dao.DataAccessRegistry;
-import nl.topicus.cobra.entities.IdObject;
 import nl.topicus.cobra.entities.TransientIdObject;
+import nl.topicus.onderwijs.WicketApplication;
 
+import org.apache.wicket.protocol.http.WebApplication;
 import org.hibernate.annotations.AccessType;
 
 @MappedSuperclass
@@ -20,6 +20,9 @@ import org.hibernate.annotations.AccessType;
 public class Entiteit implements Serializable, TransientIdObject
 {
 	private static final long serialVersionUID = 1L;
+
+	@Transient
+	private EntityManager em = null;
 
 	@Id()
 	@GeneratedValue()
@@ -35,6 +38,27 @@ public class Entiteit implements Serializable, TransientIdObject
 	public Entiteit()
 	{
 
+	}
+
+	private void startTransaction()
+	{
+		if (em == null)
+		{
+			WicketApplication app = ((WicketApplication) WebApplication.get());
+			em = app.getPersistenceFactory().createEntityManager();
+		}
+
+		if (!em.getTransaction().isActive())
+			em.getTransaction().begin();
+	}
+
+	private void endTransaction()
+	{
+		if (em != null && em.getTransaction().isActive())
+		{
+			em.close();
+			em = null;
+		}
 	}
 
 	@Override
@@ -112,58 +136,65 @@ public class Entiteit implements Serializable, TransientIdObject
 		return false;
 	}
 
-	protected <T extends IdObject> BatchDataAccessHelper<T> getBatchDataAccessHelper()
+	public void save()
 	{
-		return DataAccessRegistry.getHelper(BatchDataAccessHelper.class);
-	}
-
-	public Serializable save()
-	{
-		return getBatchDataAccessHelper().save(this);
+		startTransaction();
+		em.persist(this);
 	}
 
 	public void update()
 	{
-		getBatchDataAccessHelper().update(this);
+		startTransaction();
+		em.merge(this);
 	}
 
 	public void saveOrUpdate()
 	{
-		getBatchDataAccessHelper().saveOrUpdate(this);
+		if (id != null && id > 0)
+			update();
+		else
+			save();
 	}
 
 	public void delete()
 	{
-		getBatchDataAccessHelper().delete(this);
+		startTransaction();
+		em.remove(this);
 	}
 
 	public void commit()
 	{
-		getBatchDataAccessHelper().batchExecute();
+		em.getTransaction().commit();
+		endTransaction();
 	}
 
-	public final Serializable saveAndCommit()
+	public void saveAndCommit()
 	{
-		Serializable ret = save();
+		save();
 		commit();
-		return ret;
 	}
 
-	public final void updateAndCommit()
+	public void updateAndCommit()
 	{
 		update();
 		commit();
 	}
 
-	public final void saveOrUpdateAndCommit()
+	public void saveOrUpdateAndCommit()
 	{
 		saveOrUpdate();
 		commit();
 	}
 
-	public final void deleteAndCommit()
+	public void deleteAndCommit()
 	{
 		delete();
 		commit();
+	}
+
+	public void rollback()
+	{
+		em.getTransaction().rollback();
+		endTransaction();
 	}
 }
