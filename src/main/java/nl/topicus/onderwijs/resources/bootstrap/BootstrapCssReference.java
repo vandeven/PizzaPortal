@@ -1,4 +1,4 @@
-package nl.topicus.onderwijs.resources;
+package nl.topicus.onderwijs.resources.bootstrap;
 
 import org.apache.wicket.request.resource.CssResourceReference;
 

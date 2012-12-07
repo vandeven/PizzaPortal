@@ -34,7 +34,7 @@ public class EvenementenPage extends AbstractBasePage
 				@Override
 				public void onClick(ListItem<Evenement> item)
 				{
-					setResponsePage(new EvenementDetailPage(item.getModelObject()));
+					setResponsePage(new EvenementDetailPage(item.getModel()));
 				}
 
 				@Override

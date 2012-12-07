@@ -1,6 +1,6 @@
 package nl.topicus.onderwijs.pages;
 
-import nl.topicus.onderwijs.resources.BootstrapHeaderItem;
+import nl.topicus.onderwijs.resources.bootstrap.BootstrapHeaderItem;
 
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.WebPage;
