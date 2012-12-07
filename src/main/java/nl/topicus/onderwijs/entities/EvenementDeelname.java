@@ -21,7 +21,7 @@ public class EvenementDeelname extends Entiteit
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "account", nullable = false)
 	@RestrictedAccess(hasSetter = false)
-	private final Account account;
+	private Account account;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "deelname")
 	private List<EvenementMaaltijd> maaltijden;
@@ -29,7 +29,12 @@ public class EvenementDeelname extends Entiteit
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "evenement", nullable = false)
 	@RestrictedAccess(hasSetter = false)
-	private final Evenement evenement;
+	private Evenement evenement;
+
+	public EvenementDeelname()
+	{
+
+	}
 
 	public EvenementDeelname(Account account, Evenement evenement)
 	{

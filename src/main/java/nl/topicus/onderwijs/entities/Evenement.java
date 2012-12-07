@@ -19,14 +19,19 @@ public class Evenement extends Entiteit
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "evenementHost", nullable = false)
 	@RestrictedAccess(hasSetter = false)
-	private final Account evenementHost;
+	private Account evenementHost;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "evenement")
 	private List<EvenementDeelname> deelnames;
 
 	@Temporal(TemporalType.DATE)
 	@Column(nullable = false)
-	private final Date datum;
+	private Date datum;
+
+	public Evenement()
+	{
+
+	}
 
 	public Evenement(Account evenementHost, Date datum)
 	{

@@ -15,6 +15,8 @@ public class Account extends Entiteit
 
 	private static final long serialVersionUID = 1L;
 
+	private String gebruikersnaam;
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "evenementHost")
 	private List<Evenement> evenementen;
 
@@ -43,5 +45,15 @@ public class Account extends Entiteit
 	public void setDeelnames(List<EvenementDeelname> deelnames)
 	{
 		this.deelnames = deelnames;
+	}
+
+	public String getGebruikersnaam()
+	{
+		return gebruikersnaam;
+	}
+
+	public void setGebruikersnaam(String gebruikersnaam)
+	{
+		this.gebruikersnaam = gebruikersnaam;
 	}
 }

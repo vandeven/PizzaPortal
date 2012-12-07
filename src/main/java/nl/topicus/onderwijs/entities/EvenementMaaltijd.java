@@ -19,12 +19,17 @@ public class EvenementMaaltijd extends Entiteit
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "deelname", nullable = false)
 	@RestrictedAccess(hasSetter = false)
-	private final EvenementDeelname deelname;
+	private EvenementDeelname deelname;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "maaltijd", nullable = false)
 	@RestrictedAccess(hasSetter = false)
-	private final Maaltijd maaltijd;
+	private Maaltijd maaltijd;
+
+	public EvenementMaaltijd()
+	{
+
+	}
 
 	public EvenementMaaltijd(EvenementDeelname deelname, Maaltijd maaltijd)
 	{

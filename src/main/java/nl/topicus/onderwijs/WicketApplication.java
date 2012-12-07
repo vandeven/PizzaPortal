@@ -3,6 +3,9 @@ package nl.topicus.onderwijs;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import nl.topicus.onderwijs.entities.Account;
+import nl.topicus.onderwijs.providers.AccountProvider;
+
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebApplication;
 
@@ -16,7 +19,7 @@ public class WicketApplication extends WebApplication
 {
 	private static final String PERSISTENCE_UNIT_NAME = "todos";
 
-	private static EntityManagerFactory factory;
+	private EntityManagerFactory factory;
 
 	/**
 	 * @see org.apache.wicket.Application#getHomePage()
@@ -37,15 +40,24 @@ public class WicketApplication extends WebApplication
 
 		// add your configuration here
 		setPersistenceFactory(Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME));
+		AccountProvider acc = new AccountProvider();
+
+		acc.begin();
+		Account newAccount = new Account();
+		newAccount.setGebruikersnaam("pietje");
+
+		acc.persist(newAccount);
+		acc.commit();
+		acc.end();
 	}
 
-	public static EntityManagerFactory getPersistenceFactory()
+	public EntityManagerFactory getPersistenceFactory()
 	{
 		return factory;
 	}
 
-	public static void setPersistenceFactory(EntityManagerFactory factory)
+	public void setPersistenceFactory(EntityManagerFactory factory)
 	{
-		WicketApplication.factory = factory;
+		this.factory = factory;
 	}
 }

@@ -41,6 +41,11 @@
 		   <id>EclipseLink</id>
 		   <url>http://download.eclipse.org/rt/eclipselink/maven.repo</url>
 		</repository>
+		  <repository>
+        <id>glassfish</id>
+        <name>Glassfish</name>
+        <url>https://repository.jboss.org/nexus/content/repositories/glassfish</url>
+      </repository>
 	</repositories>
 	
 	<groupId>nl.topicus.onderwijs</groupId>
@@ -130,7 +135,11 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		
+		     <dependency>
+        <groupId>org.apache.derby</groupId>
+        <artifactId>derby</artifactId>
+        <version>10.1.1.0</version>
+      </dependency>
 	</dependencies>
 	<build>
 		<resources>
