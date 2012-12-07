@@ -1,7 +1,9 @@
 package nl.topicus.onderwijs.entities;
 
+import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -27,9 +29,13 @@ public class Evenement extends Entiteit
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "evenement")
 	private List<EvenementDeelname> deelnames;
 
-	public Evenement(Account evenementHost)
+	@Column(nullable = false)
+	private final Date datum;
+
+	public Evenement(Account evenementHost, Date datum)
 	{
 		this.evenementHost = evenementHost;
+		this.datum = datum;
 	}
 
 	public Account getEvenementHost()
@@ -45,5 +51,10 @@ public class Evenement extends Entiteit
 	public void setDeelnames(List<EvenementDeelname> deelnames)
 	{
 		this.deelnames = deelnames;
+	}
+
+	public Date getDatum()
+	{
+		return datum;
 	}
 }
