@@ -6,6 +6,7 @@ import javax.persistence.Persistence;
 
 import net.ftlines.wicket.cdi.CdiConfiguration;
 import nl.topicus.onderwijs.entities.Account;
+import nl.topicus.onderwijs.pages.HomePage;
 
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebApplication;

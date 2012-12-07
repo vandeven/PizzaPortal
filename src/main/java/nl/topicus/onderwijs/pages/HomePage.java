@@ -1,4 +1,4 @@
-package nl.topicus.onderwijs;
+package nl.topicus.onderwijs.pages;
 
 import nl.topicus.onderwijs.panels.LoginPanel;
 

@@ -1,5 +1,7 @@
 package nl.topicus.onderwijs;
 
+import nl.topicus.onderwijs.pages.HomePage;
+
 import org.apache.wicket.util.tester.WicketTester;
 import org.junit.Before;
 import org.junit.Test;
