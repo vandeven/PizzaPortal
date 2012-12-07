@@ -1,5 +1,7 @@
 package nl.topicus.onderwijs.panels;
 
+import javax.inject.Inject;
+
 import nl.topicus.onderwijs.entities.Account;
 import nl.topicus.onderwijs.providers.AccountProvider;
 
@@ -11,14 +13,16 @@ import org.apache.wicket.markup.html.panel.Panel;
 public class LoginPanel extends Panel
 {
 
+	@Inject
+	private AccountProvider provider;
+
 	private static final long serialVersionUID = 1L;
 
 	public LoginPanel(String id)
 	{
 		super(id);
-		AccountProvider acc = new AccountProvider();
 
-		ListView<Account> listview = new ListView<Account>("listview", acc.getAccounts())
+		ListView<Account> listview = new ListView<Account>("listview", provider.getAccounts())
 		{
 
 			private static final long serialVersionUID = 1L;
