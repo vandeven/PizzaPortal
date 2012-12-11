@@ -8,6 +8,10 @@ import net.ftlines.wicket.cdi.CdiConfiguration;
 import nl.topicus.onderwijs.entities.Account;
 import nl.topicus.onderwijs.pages.HomePage;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.config.IniSecurityManagerFactory;
+import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.util.Factory;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.jboss.weld.environment.servlet.Listener;
@@ -51,6 +55,14 @@ public class WicketApplication extends WebApplication
 		Account newAccount = new Account();
 		newAccount.setGebruikersnaam("pietje");
 		newAccount.saveOrUpdateAndCommit();
+		setSecuritySettings();
+	}
+
+	private void setSecuritySettings()
+	{
+		Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro.ini");
+		SecurityManager securityManager = factory.getInstance();
+		SecurityUtils.setSecurityManager(securityManager);
 	}
 
 	public EntityManagerFactory getPersistenceFactory()

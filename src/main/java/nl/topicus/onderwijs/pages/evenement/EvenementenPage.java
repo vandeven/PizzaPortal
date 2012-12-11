@@ -7,12 +7,12 @@ import java.util.List;
 import nl.topicus.cobra.modelsv2.ModelFactory;
 import nl.topicus.cobra.web.components.listview.ClickableIdObjectListView;
 import nl.topicus.onderwijs.entities.Evenement;
-import nl.topicus.onderwijs.pages.AbstractBasePage;
+import nl.topicus.onderwijs.pages.AbstractSecureBasePage;
 
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 
-public class EvenementenPage extends AbstractBasePage
+public class EvenementenPage extends AbstractSecureBasePage
 {
 
 	private static final long serialVersionUID = 1L;

@@ -4,17 +4,17 @@
 	<body>
 		<wicket:panel>
 			<h2>Login</h2>
-			<form>
+			<form wicket:id="form">
 				<div class="control-group">
 					<label class="control-label">Inlognaam</label>
 					<div class="controls">
-						<input class="input-xlarge"/>
+						<input type="text" wicket:id="username" class="input-xlarge"/>
 					</div>
 				</div>
 				<div class="control-group">
 					<label class="control-label">Wachtwoord</label>
 					<div class="controls">
-						<input class="input-xlarge"/>
+						<input type="password" wicket:id="password" class="input-xlarge"/>
 					</div>
 				</div>
 	          <div class="form-actions">

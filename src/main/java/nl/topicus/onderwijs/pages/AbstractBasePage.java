@@ -2,11 +2,13 @@ package nl.topicus.onderwijs.pages;
 
 import nl.topicus.onderwijs.resources.bootstrap.BootstrapHeaderItem;
 
+import org.apache.wicket.feedback.FeedbackMessage;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 
-public class AbstractBasePage extends WebPage
+public abstract class AbstractBasePage extends WebPage
 {
 	private static final long serialVersionUID = 1L;
 
@@ -23,6 +25,24 @@ public class AbstractBasePage extends WebPage
 				setResponsePage(HomePage.class);
 			}
 
+		});
+		add(new FeedbackPanel("feedback")
+		{
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected String getCSSClass(FeedbackMessage message)
+			{
+				if (message.isError())
+				{
+					return "alert alert-error";
+				}
+				if (message.isInfo())
+				{
+					return "alert alert-info";
+				}
+				return super.getCSSClass(message);
+			}
 		});
 	}
 

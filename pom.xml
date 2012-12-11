@@ -49,6 +49,7 @@
 			<name>JBoss Repository</name>
 			<url>http://repository.jboss.org/nexus/content/groups/public-jboss/</url>
 		</repository>
+
 	</repositories>
 
 	<groupId>nl.topicus.onderwijs</groupId>
@@ -79,6 +80,7 @@
 			<artifactId>wicket-core</artifactId>
 			<version>${wicket.version}</version>
 		</dependency>
+		
 		<!-- OPTIONAL DEPENDENCY <dependency> <groupId>org.apache.wicket</groupId> 
 			<artifactId>wicket-extensions</artifactId> <version>${wicket.version}</version> 
 			</dependency> -->
@@ -168,6 +170,17 @@
 			<version>3.0.0.CR2</version>
 		</dependency>
 
+		<!-- SHIRO -->
+		<dependency>
+		  <groupId>org.apache.shiro</groupId>
+		  <artifactId>shiro-core</artifactId>
+		  <version>1.2.1</version>
+		</dependency>		
+		<dependency>
+		  <groupId>org.apache.shiro</groupId>
+		  <artifactId>shiro-web</artifactId>
+		  <version>1.2.1</version>
+		</dependency>
 
 	</dependencies>
 	<build>

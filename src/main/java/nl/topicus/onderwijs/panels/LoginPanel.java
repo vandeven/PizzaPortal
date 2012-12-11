@@ -6,11 +6,19 @@ import nl.topicus.onderwijs.entities.Account;
 import nl.topicus.onderwijs.pages.evenement.EvenementenPage;
 import nl.topicus.onderwijs.providers.AccountProvider;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.PasswordTextField;
+import org.apache.wicket.markup.html.form.SubmitLink;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.Model;
 
 public class LoginPanel extends Panel
 {
@@ -23,18 +31,41 @@ public class LoginPanel extends Panel
 	public LoginPanel(String id)
 	{
 		super(id);
-		add(new Link<Void>("login")
+		Form<Void> form = new Form<Void>("form")
 		{
-
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void onClick()
+			protected void onSubmit()
 			{
-				setResponsePage(EvenementenPage.class);
-			}
+				String username = get("username").getDefaultModelObjectAsString();
+				String password = get("password").getDefaultModelObjectAsString();
 
-		});
+				Subject currentUser = SecurityUtils.getSubject();
+				boolean authenticated = true;
+				try
+				{
+					currentUser.login(new UsernamePasswordToken(username, password));
+				}
+				catch (AuthenticationException e)
+				{
+					authenticated = false;
+				}
+				if (authenticated)
+				{
+					setResponsePage(EvenementenPage.class);
+				}
+				else
+				{
+					error("Geen correcte username/password combinatie");
+				}
+			}
+		};
+		add(form);
+		form.add(new TextField<String>("username", new Model<String>()).setRequired(true));
+		form.add(new PasswordTextField("password", new Model<String>()));
+		form.add(new SubmitLink("login", form));
+
 		ListView<Account> listview = new ListView<Account>("listview", provider.getAccounts())
 		{
 
