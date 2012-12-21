@@ -46,8 +46,8 @@ public class EclipseLinkModel<T extends IdObject> implements IDetachable, IModel
 		{
 			return entiteit;
 		}
-		IdObjectProvider<T> provider = new IdObjectProvider<T>();
-		entiteit = provider.get(clazz, id);
+		IdObjectProvider<T> provider = new IdObjectProvider<T>(clazz);
+		entiteit = provider.get(id);
 		return entiteit;
 	}
 

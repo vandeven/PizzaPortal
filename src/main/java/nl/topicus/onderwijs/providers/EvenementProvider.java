@@ -1,6 +1,9 @@
 package nl.topicus.onderwijs.providers;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import nl.topicus.onderwijs.dao.filters.EvenementZoekFilter;
 import nl.topicus.onderwijs.entities.Evenement;
@@ -10,17 +13,16 @@ public class EvenementProvider extends AbstractPersistenceProvider<Evenement, Ev
 {
 
 	@Override
-	protected String createQuery(EvenementZoekFilter filter)
+	protected Predicate createWhere(Root<Evenement> root, CriteriaBuilder builder,
+			EvenementZoekFilter filter)
 	{
-		StringBuilder builder = new StringBuilder();
-		builder.append("select e from Evenement e");
-		return builder.toString();
+		return null;
 	}
 
 	@Override
-	protected String createCountQuery(EvenementZoekFilter filter)
+	protected Class<Evenement> getEntityClass()
 	{
-		return "select count(e) from Evenement e";
+		return Evenement.class;
 	}
 
 }

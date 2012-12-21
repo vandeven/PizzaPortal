@@ -6,6 +6,9 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import nl.topicus.cobra.entities.IdObject;
 import nl.topicus.onderwijs.WicketApplication;
@@ -25,6 +28,11 @@ public abstract class AbstractPersistenceProvider<T extends IdObject, ZF extends
 		WicketApplication app = ((WicketApplication) WebApplication.get());
 		em = app.getPersistenceFactory().createEntityManager();
 		em.getTransaction().begin();
+	}
+
+	public Query createQuery(CriteriaQuery< ? > query)
+	{
+		return em.createQuery(query);
 	}
 
 	public Query createQuery(String query)
@@ -61,13 +69,14 @@ public abstract class AbstractPersistenceProvider<T extends IdObject, ZF extends
 	public List<T> list(ZF filter, Integer first, Integer count)
 	{
 		List<T> list = null;
-		String queryString = createQuery(filter);
-		if (queryString == null || queryString.isEmpty())
+		begin();
+		CriteriaQuery<T> criteria = createCriteria(filter);
+		if (criteria == null)
 		{
+			end();
 			return Lists.newArrayList();
 		}
-		begin();
-		Query query = createQuery(queryString);
+		Query query = createQuery(criteria);
 		if (first != null && count != null)
 		{
 			query.setFirstResult(first);
@@ -81,26 +90,26 @@ public abstract class AbstractPersistenceProvider<T extends IdObject, ZF extends
 	public int count(ZF filter)
 	{
 		int result = 0;
-		String queryString = createCountQuery(filter);
-		if (queryString == null || queryString.isEmpty())
+		begin();
+		CriteriaQuery<Long> criteria = createCountCriteria(filter);
+		if (criteria == null)
 		{
+			end();
 			return 0;
 		}
-		begin();
-		Query query = createQuery(queryString);
-		result = ((Number) query.getSingleResult()).intValue();
+		result = ((Number) createQuery(criteria).getSingleResult()).intValue();
 		end();
 		return result;
 	}
 
 	@SuppressWarnings("unchecked")
-	public T get(Class<T> clazz, Long id)
+	public T get(Long id)
 	{
 		T entiteit = null;
 		String queryString = "select e from :entiteitNaam where e.id = :id";
 		begin();
 		Query query = createQuery(queryString);
-		query.setParameter("entiteit", clazz.getSimpleName());
+		query.setParameter("entiteit", getEntityClass().getSimpleName());
 		query.setParameter("id", id);
 		entiteit = (T) query.getSingleResult();
 		end();
@@ -112,7 +121,36 @@ public abstract class AbstractPersistenceProvider<T extends IdObject, ZF extends
 		return em.getCriteriaBuilder();
 	}
 
-	protected abstract CriteriaBuilder createCriteria(ZF filter);
+	protected CriteriaQuery<T> createCriteria(ZF filter)
+	{
+		CriteriaBuilder builder = getCriteriaBuilder();
+		CriteriaQuery<T> cq = builder.createQuery(getEntityClass());
+		Root<T> root = cq.from(getEntityClass());
+		cq.select(root);
+		Predicate where = createWhere(root, builder, filter);
+		if (where != null)
+		{
+			cq.where(where);
+		}
+		return cq;
+	}
 
-	protected abstract String createCountQuery(ZF filter);
+	protected CriteriaQuery<Long> createCountCriteria(ZF filter)
+	{
+		CriteriaBuilder builder = getCriteriaBuilder();
+		CriteriaQuery<Long> cq = builder.createQuery(Long.class);
+		Root<T> root = cq.from(getEntityClass());
+		cq.select(builder.count(cq.from(getEntityClass())));
+		Predicate where = createWhere(root, builder, filter);
+		if (where != null)
+		{
+			cq.where(where);
+		}
+		return cq;
+	}
+
+	protected abstract Predicate createWhere(Root<T> root, CriteriaBuilder builder, ZF filter);
+
+	protected abstract Class<T> getEntityClass();
+
 }

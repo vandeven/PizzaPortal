@@ -1,6 +1,9 @@
 package nl.topicus.onderwijs.providers;
 
 import javax.enterprise.context.Dependent;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import nl.topicus.cobra.entities.IdObject;
 import nl.topicus.onderwijs.dao.filters.IdObjectZoekFilter;
@@ -10,16 +13,24 @@ public class IdObjectProvider<T extends IdObject> extends
 		AbstractPersistenceProvider<T, IdObjectZoekFilter<T>>
 {
 
+	private Class<T> clazz;
+
+	public IdObjectProvider(Class<T> clazz)
+	{
+		this.clazz = clazz;
+	}
+
 	@Override
-	protected String createQuery(IdObjectZoekFilter<T> filter)
+	protected Predicate createWhere(Root<T> root, CriteriaBuilder builder,
+			IdObjectZoekFilter<T> filter)
 	{
 		return null;
 	}
 
 	@Override
-	protected String createCountQuery(IdObjectZoekFilter<T> filter)
+	protected Class<T> getEntityClass()
 	{
-		return null;
+		return clazz;
 	}
 
 }
