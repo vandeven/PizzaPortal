@@ -1,49 +1,46 @@
 package nl.topicus.onderwijs.pages.evenement;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-import nl.topicus.cobra.modelsv2.ModelFactory;
-import nl.topicus.cobra.web.components.listview.ClickableIdObjectListView;
+import nl.topicus.onderwijs.components.ClickableDataView;
+import nl.topicus.onderwijs.dao.filters.EvenementZoekFilter;
+import nl.topicus.onderwijs.dao.providers.EvenementenDataProvider;
 import nl.topicus.onderwijs.entities.Evenement;
-import nl.topicus.onderwijs.pages.AbstractSecureBasePage;
+import nl.topicus.onderwijs.pages.AbstractMenuBasePage;
 
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.repeater.Item;
+import org.apache.wicket.model.Model;
 
-public class EvenementenPage extends AbstractSecureBasePage
+public class EvenementenPage extends AbstractMenuBasePage
 {
 
 	private static final long serialVersionUID = 1L;
 
 	public EvenementenPage()
 	{
-		List<Evenement> evenementen = new ArrayList<Evenement>();
+		EvenementZoekFilter filter = new EvenementZoekFilter();
 
-		Evenement evenement = new Evenement(null, new Date());
-		evenementen.add(evenement);
-
-		ClickableIdObjectListView<Evenement> listView =
-			new ClickableIdObjectListView<Evenement>("evenementenList",
-				ModelFactory.getListModel(evenementen))
+		ClickableDataView<Evenement> listView =
+			new ClickableDataView<Evenement>("evenementenList", new EvenementenDataProvider(filter))
 			{
 
 				private static final long serialVersionUID = 1L;
 
 				@Override
-				public void onClick(ListItem<Evenement> item)
+				public void onClick(Item<Evenement> item)
 				{
 					setResponsePage(new EvenementDetailPage(item.getModel()));
 				}
 
 				@Override
-				protected void populateItem(ListItem<Evenement> item)
+				protected void populateItem(Item<Evenement> item)
 				{
-					item.add(new Label("naam"));
+					Evenement evenement = item.getModelObject();
+					item.add(new Label("naam", evenement.getNaam()));
 					item.add(new Label("organisator"));
-					item.add(new Label("lokatie"));
-					item.add(new Label("datum"));
+					item.add(new Label("lokatie", evenement.getLokatie()));
+					item.add(new Label("datum", new Model<Date>(evenement.getDatum())));
 				}
 
 			};

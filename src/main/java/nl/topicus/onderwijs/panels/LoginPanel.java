@@ -2,6 +2,7 @@ package nl.topicus.onderwijs.panels;
 
 import javax.inject.Inject;
 
+import nl.topicus.onderwijs.dao.filters.AccountZoekFilter;
 import nl.topicus.onderwijs.entities.Account;
 import nl.topicus.onderwijs.pages.evenement.EvenementenPage;
 import nl.topicus.onderwijs.providers.AccountProvider;
@@ -66,20 +67,21 @@ public class LoginPanel extends Panel
 		form.add(new PasswordTextField("password", new Model<String>()));
 		form.add(new SubmitLink("login", form));
 
-		ListView<Account> listview = new ListView<Account>("listview", provider.getAccounts())
-		{
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			protected void populateItem(ListItem<Account> item)
+		ListView<Account> listview =
+			new ListView<Account>("listview", provider.list(new AccountZoekFilter()))
 			{
-				final Account account = item.getModelObject();
-				item.add(new Label("id", account.getId().toString()));
-				item.add(new Label("name", account.getGebruikersnaam()));
-			}
 
-		};
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				protected void populateItem(ListItem<Account> item)
+				{
+					final Account account = item.getModelObject();
+					item.add(new Label("id", account.getId().toString()));
+					item.add(new Label("name", account.getGebruikersnaam()));
+				}
+
+			};
 		add(listview);
 	}
 }

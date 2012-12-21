@@ -28,6 +28,10 @@ public class Evenement extends Entiteit
 	@Column(nullable = false)
 	private Date datum;
 
+	private String naam;
+
+	private String lokatie;
+
 	public Evenement()
 	{
 
@@ -57,5 +61,25 @@ public class Evenement extends Entiteit
 	public Date getDatum()
 	{
 		return datum;
+	}
+
+	public String getNaam()
+	{
+		return naam;
+	}
+
+	public void setNaam(String naam)
+	{
+		this.naam = naam;
+	}
+
+	public String getLokatie()
+	{
+		return lokatie;
+	}
+
+	public void setLokatie(String lokatie)
+	{
+		this.lokatie = lokatie;
 	}
 }

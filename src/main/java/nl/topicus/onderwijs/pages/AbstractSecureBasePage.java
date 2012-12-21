@@ -1,10 +1,9 @@
 package nl.topicus.onderwijs.pages;
 
-import nl.topicus.onderwijs.panels.menu.MenuPanel;
-
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
-import org.apache.wicket.RestartResponseException;
+import org.apache.wicket.RestartResponseAtInterceptPageException;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 public abstract class AbstractSecureBasePage extends AbstractBasePage
 {
@@ -13,13 +12,16 @@ public abstract class AbstractSecureBasePage extends AbstractBasePage
 
 	public AbstractSecureBasePage()
 	{
+		this(null);
+	}
+
+	public AbstractSecureBasePage(PageParameters parameters)
+	{
 		Subject user = SecurityUtils.getSubject();
 		if (!user.isAuthenticated())
 		{
-			throw new RestartResponseException(HomePage.class);
+			throw new RestartResponseAtInterceptPageException(HomePage.class, parameters);
 		}
-
-		add(new MenuPanel("menu"));
 	}
 
 }
