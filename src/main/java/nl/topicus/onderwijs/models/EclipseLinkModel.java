@@ -28,17 +28,6 @@ public class EclipseLinkModel<T extends IdObject> implements IDetachable, IModel
 		entiteit = null;
 	}
 
-	private void setProperties(T entiteit)
-	{
-		if (entiteit == null)
-		{
-			return;
-		}
-		this.entiteit = entiteit;
-		this.id = (Long) entiteit.getIdAsSerializable();
-		this.clazz = (Class<T>) entiteit.getClass();
-	}
-
 	@Override
 	public T getObject()
 	{
@@ -48,6 +37,7 @@ public class EclipseLinkModel<T extends IdObject> implements IDetachable, IModel
 		}
 		IdObjectProvider<T> provider = new IdObjectProvider<T>(clazz);
 		entiteit = provider.get(id);
+		setProperties(entiteit);
 		return entiteit;
 	}
 
@@ -55,5 +45,16 @@ public class EclipseLinkModel<T extends IdObject> implements IDetachable, IModel
 	public void setObject(T entiteit)
 	{
 		setProperties(entiteit);
+	}
+
+	private void setProperties(T entiteit)
+	{
+		if (entiteit == null)
+		{
+			return;
+		}
+		this.entiteit = entiteit;
+		this.id = (Long) entiteit.getIdAsSerializable();
+		this.clazz = (Class<T>) entiteit.getClass();
 	}
 }

@@ -106,10 +106,10 @@ public abstract class AbstractPersistenceProvider<T extends IdObject, ZF extends
 	public T get(Long id)
 	{
 		T entiteit = null;
-		String queryString = "select e from :entiteitNaam where e.id = :id";
+		String queryString =
+			"select e from " + getEntityClass().getSimpleName() + " e where e.id = :id";
 		begin();
 		Query query = createQuery(queryString);
-		query.setParameter("entiteit", getEntityClass().getSimpleName());
 		query.setParameter("id", id);
 		entiteit = (T) query.getSingleResult();
 		end();
