@@ -1,9 +1,8 @@
 package nl.topicus.onderwijs.panels.menu;
 
 import nl.topicus.onderwijs.pages.HomePage;
+import nl.topicus.onderwijs.security.AuthenticationUtil;
 
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
 
@@ -23,8 +22,7 @@ public class MenuPanel extends Panel
 			@Override
 			public void onClick()
 			{
-				Subject subject = SecurityUtils.getSubject();
-				subject.logout();
+				AuthenticationUtil.loggedOff();
 				setResponsePage(HomePage.class);
 			}
 

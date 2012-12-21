@@ -8,10 +8,7 @@ import nl.topicus.onderwijs.pages.evenement.EvenementenPage;
 import nl.topicus.onderwijs.providers.AccountProvider;
 import nl.topicus.onderwijs.security.AuthenticationUtil;
 
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.Subject;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;
@@ -43,28 +40,27 @@ public class LoginPanel extends Panel
 				String username = get("username").getDefaultModelObjectAsString();
 				String password = get("password").getDefaultModelObjectAsString();
 
-				Subject currentUser = SecurityUtils.getSubject();
 				boolean authenticated = true;
 				try
 				{
-					currentUser.login(new UsernamePasswordToken(username, password));
+					AuthenticationUtil.loggedOn(provider, username, password);
+
 				}
 				catch (AuthenticationException e)
 				{
 					authenticated = false;
 				}
+				catch (Exception e)
+				{
+					authenticated = false;
+					error("Unknown login error");
+				}
+
 				if (authenticated)
 				{
-					try
-					{
-						AuthenticationUtil.loggedOn(provider, username);
-						setResponsePage(EvenementenPage.class);
-					}
-					catch (Exception e)
-					{
-						error("Fout tijdens het inloggen");
-						e.printStackTrace();
-					}
+
+					setResponsePage(EvenementenPage.class);
+
 				}
 				else
 				{

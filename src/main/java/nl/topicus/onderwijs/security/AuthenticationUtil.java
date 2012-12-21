@@ -8,10 +8,28 @@ import nl.topicus.onderwijs.entities.Account;
 import nl.topicus.onderwijs.models.ELModelFactory;
 import nl.topicus.onderwijs.providers.AccountProvider;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
+
 public class AuthenticationUtil
 {
-	public static void loggedOn(AccountProvider accProvider, String username) throws Exception
+	public static void loggedOff()
 	{
+		Subject subject = SecurityUtils.getSubject();
+		subject.logout();
+		PizzaSession.get().setAccount(null);
+	}
+
+	public static void loggedOn(AccountProvider accProvider, String username, String password)
+			throws Exception
+	{
+		// Try login
+		Subject currentUser = SecurityUtils.getSubject();
+		currentUser.login(new UsernamePasswordToken(username, password));
+
+		// Set account
+
 		Account acc = null;
 		AccountZoekFilter filter = new AccountZoekFilter();
 		filter.setGebruikersnaam(username);
@@ -35,5 +53,6 @@ public class AuthenticationUtil
 
 		// Set session
 		PizzaSession.get().setAccount(ELModelFactory.getModel(acc));
+
 	}
 }
