@@ -5,6 +5,7 @@ import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
 
 import nl.topicus.cobra.entities.IdObject;
 import nl.topicus.onderwijs.WicketApplication;
@@ -92,6 +93,7 @@ public abstract class AbstractPersistenceProvider<T extends IdObject, ZF extends
 		return result;
 	}
 
+	@SuppressWarnings("unchecked")
 	public T get(Class<T> clazz, Long id)
 	{
 		T entiteit = null;
@@ -105,7 +107,12 @@ public abstract class AbstractPersistenceProvider<T extends IdObject, ZF extends
 		return entiteit;
 	}
 
-	protected abstract String createQuery(ZF filter);
+	protected CriteriaBuilder getCriteriaBuilder()
+	{
+		return em.getCriteriaBuilder();
+	}
+
+	protected abstract CriteriaBuilder createCriteria(ZF filter);
 
 	protected abstract String createCountQuery(ZF filter);
 }

@@ -6,4 +6,16 @@ public class AccountZoekFilter extends AbstractZoekFilter<Account>
 {
 	private static final long serialVersionUID = 1L;
 
+	private String gebruikersnaam;
+
+	public String getGebruikersnaam()
+	{
+		return gebruikersnaam;
+	}
+
+	public void setGebruikersnaam(String gebruikersnaam)
+	{
+		this.gebruikersnaam = gebruikersnaam;
+	}
+
 }

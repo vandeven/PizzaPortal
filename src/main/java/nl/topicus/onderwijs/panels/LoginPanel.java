@@ -54,6 +54,7 @@ public class LoginPanel extends Panel
 				}
 				if (authenticated)
 				{
+
 					setResponsePage(EvenementenPage.class);
 				}
 				else
