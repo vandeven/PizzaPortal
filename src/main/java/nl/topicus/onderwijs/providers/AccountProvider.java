@@ -16,9 +16,7 @@ public class AccountProvider extends AbstractPersistenceProvider<Account, Accoun
 		CriteriaBuilder cb = getCriteriaBuilder();
 		CriteriaQuery<Account> cq = cb.createQuery(Account.class);
 		Root<Account> root = cq.from(Account.class);
-		Predicate predicate = cb.conjunction();
-
-		cb.and(predicate, cb.equal(root.get()), filter.getGebruikersnaam());
+		Predicate predicate = cb.equal(root.get("gebruikersnaam"), filter.getGebruikersnaam());
 
 		cq.select(root).where(predicate);
 		return cb;
