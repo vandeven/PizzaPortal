@@ -10,23 +10,25 @@ import javax.persistence.criteria.Root;
 import nl.topicus.onderwijs.dao.filters.EvenementZoekFilter;
 import nl.topicus.onderwijs.entities.Evenement;
 
-import com.google.common.collect.Lists;
-
 @ApplicationScoped
 public class EvenementProvider extends AbstractPersistenceProvider<Evenement, EvenementZoekFilter>
 {
 
 	@Override
-	protected List<Predicate> createWhere(Root<Evenement> root, CriteriaBuilder builder,
+	protected List<Predicate> createWhere(Root<Evenement> root, CriteriaBuilder cb,
 			EvenementZoekFilter filter)
 	{
-		List<Predicate> predicates = Lists.newArrayList();
+		PredicateBuilder builder = new PredicateBuilder(root, cb);
 
 		if (filter.getNaam() != null)
 		{
-			predicates.add(builder.like(root.<String> get("naam"), "%" + filter.getNaam() + "%"));
+			builder.addLike("naam", filter.getNaam());
 		}
-		return predicates;
+		if (filter.getDatum() != null)
+		{
+			builder.addEq("datum", filter.getDatum());
+		}
+		return builder.build();
 	}
 
 	@Override

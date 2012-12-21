@@ -9,21 +9,20 @@ import javax.persistence.criteria.Root;
 import nl.topicus.onderwijs.dao.filters.AccountZoekFilter;
 import nl.topicus.onderwijs.entities.Account;
 
-import com.google.common.collect.Lists;
-
 public class AccountProvider extends AbstractPersistenceProvider<Account, AccountZoekFilter>
 {
 
 	@Override
-	protected List<Predicate> createWhere(Root<Account> root, CriteriaBuilder builder,
+	protected List<Predicate> createWhere(Root<Account> root, CriteriaBuilder cb,
 			AccountZoekFilter filter)
 	{
-		List<Predicate> predicates = Lists.newArrayList();
+		PredicateBuilder builder = new PredicateBuilder(root, cb);
+
 		if (filter.getGebruikersnaam() != null)
 		{
-			predicates.add(builder.equal(root.get("gebruikersnaam"), filter.getGebruikersnaam()));
+			builder.addEq("gebruikersnaam", filter.getGebruikersnaam());
 		}
-		return predicates;
+		return builder.build();
 	}
 
 	@Override
