@@ -1,5 +1,7 @@
 package nl.topicus.onderwijs.security;
 
+import nl.topicus.onderwijs.resources.ldap.AuthenticateLDAP;
+
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -39,6 +41,6 @@ public class PizzaRealm implements Realm
 
 	private boolean isAuthenticated(String username, String password)
 	{
-		return username.equals("test") && password.equals("test");
+		return AuthenticateLDAP.authenticate("baas2.topicus.local", "TOPICUS", username, password);
 	}
 }
