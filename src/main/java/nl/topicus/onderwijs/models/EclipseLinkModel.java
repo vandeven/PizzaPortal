@@ -1,7 +1,7 @@
 package nl.topicus.onderwijs.models;
 
 import nl.topicus.cobra.entities.IdObject;
-import nl.topicus.onderwijs.providers.BasicProvider;
+import nl.topicus.onderwijs.providers.IdObjectProvider;
 
 import org.apache.wicket.model.IDetachable;
 import org.apache.wicket.model.IModel;
@@ -46,7 +46,7 @@ public class EclipseLinkModel<T extends IdObject> implements IDetachable, IModel
 		{
 			return entiteit;
 		}
-		BasicProvider<T> provider = new BasicProvider<T>();
+		IdObjectProvider<T> provider = new IdObjectProvider<T>();
 		entiteit = provider.get(clazz, id);
 		return entiteit;
 	}

@@ -2,15 +2,15 @@ package nl.topicus.onderwijs.providers;
 
 import javax.enterprise.context.ApplicationScoped;
 
-import nl.topicus.onderwijs.dao.filters.AbstractZoekFilter;
+import nl.topicus.onderwijs.dao.filters.EvenementZoekFilter;
 import nl.topicus.onderwijs.entities.Evenement;
 
 @ApplicationScoped
-public class EvenementProvider extends AbstractPersistenceProvider<Evenement>
+public class EvenementProvider extends AbstractPersistenceProvider<Evenement, EvenementZoekFilter>
 {
 
 	@Override
-	protected String createQuery(AbstractZoekFilter<Evenement> filter)
+	protected String createQuery(EvenementZoekFilter filter)
 	{
 		StringBuilder builder = new StringBuilder();
 		builder.append("select e from Evenement e");
@@ -18,7 +18,7 @@ public class EvenementProvider extends AbstractPersistenceProvider<Evenement>
 	}
 
 	@Override
-	protected String createCountQuery(AbstractZoekFilter<Evenement> filter)
+	protected String createCountQuery(EvenementZoekFilter filter)
 	{
 		return "select count(e) from Evenement e";
 	}

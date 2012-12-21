@@ -15,7 +15,7 @@ import org.apache.wicket.protocol.http.WebApplication;
 import com.google.common.collect.Lists;
 
 @ApplicationScoped
-public abstract class AbstractPersistenceProvider<T extends IdObject>
+public abstract class AbstractPersistenceProvider<T extends IdObject, ZF extends AbstractZoekFilter<T>>
 {
 	private EntityManager em = null;
 
@@ -51,13 +51,13 @@ public abstract class AbstractPersistenceProvider<T extends IdObject>
 		em.close();
 	}
 
-	public List<T> list(AbstractZoekFilter<T> filter)
+	public List<T> list(ZF filter)
 	{
 		return list(filter, null, null);
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<T> list(AbstractZoekFilter<T> filter, Integer first, Integer count)
+	public List<T> list(ZF filter, Integer first, Integer count)
 	{
 		List<T> list = null;
 		String queryString = createQuery(filter);
@@ -77,7 +77,7 @@ public abstract class AbstractPersistenceProvider<T extends IdObject>
 		return list;
 	}
 
-	public int count(AbstractZoekFilter<T> filter)
+	public int count(ZF filter)
 	{
 		int result = 0;
 		String queryString = createCountQuery(filter);
@@ -105,7 +105,7 @@ public abstract class AbstractPersistenceProvider<T extends IdObject>
 		return entiteit;
 	}
 
-	protected abstract String createQuery(AbstractZoekFilter<T> filter);
+	protected abstract String createQuery(ZF filter);
 
-	protected abstract String createCountQuery(AbstractZoekFilter<T> filter);
+	protected abstract String createCountQuery(ZF filter);
 }
