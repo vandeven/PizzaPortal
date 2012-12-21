@@ -6,6 +6,7 @@ import java.util.Iterator;
 import nl.topicus.cobra.web.components.dataview.ExportableDataView;
 
 import org.apache.wicket.AttributeModifier;
+import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.link.ILinkListener;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.IDataProvider;
@@ -93,6 +94,7 @@ public abstract class ClickableDataView<T extends Serializable> extends Exportab
 					return "javascript:location.href='" + urlForLink + "';";
 				}
 			}));
+			add(new AttributeAppender("style", "cursor: pointer;"));
 		}
 
 	}

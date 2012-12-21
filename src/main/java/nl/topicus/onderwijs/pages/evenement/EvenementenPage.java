@@ -20,7 +20,6 @@ public class EvenementenPage extends AbstractMenuBasePage
 	public EvenementenPage()
 	{
 		EvenementZoekFilter filter = new EvenementZoekFilter();
-
 		ClickableDataView<Evenement> listView =
 			new ClickableDataView<Evenement>("evenementenList", new EvenementenDataProvider(filter))
 			{
@@ -38,7 +37,8 @@ public class EvenementenPage extends AbstractMenuBasePage
 				{
 					Evenement evenement = item.getModelObject();
 					item.add(new Label("naam", evenement.getNaam()));
-					item.add(new Label("organisator"));
+					item.add(new Label("organisator", evenement.getEvenementHost()
+						.getGebruikersnaam()));
 					item.add(new Label("lokatie", evenement.getLokatie()));
 					item.add(new Label("datum", new Model<Date>(evenement.getDatum())));
 				}

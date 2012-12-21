@@ -1,5 +1,7 @@
 package nl.topicus.onderwijs.providers;
 
+import java.util.List;
+
 import javax.enterprise.context.Dependent;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
@@ -21,7 +23,7 @@ public class IdObjectProvider<T extends IdObject> extends
 	}
 
 	@Override
-	protected Predicate createWhere(Root<T> root, CriteriaBuilder builder,
+	protected List<Predicate> createWhere(Root<T> root, CriteriaBuilder builder,
 			IdObjectZoekFilter<T> filter)
 	{
 		return null;

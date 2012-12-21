@@ -127,10 +127,10 @@ public abstract class AbstractPersistenceProvider<T extends IdObject, ZF extends
 		CriteriaQuery<T> cq = builder.createQuery(getEntityClass());
 		Root<T> root = cq.from(getEntityClass());
 		cq.select(root);
-		Predicate where = createWhere(root, builder, filter);
+		List<Predicate> where = createWhere(root, builder, filter);
 		if (where != null)
 		{
-			cq.where(where);
+			cq.where(where.toArray(new Predicate[where.size()]));
 		}
 		return cq;
 	}
@@ -141,15 +141,15 @@ public abstract class AbstractPersistenceProvider<T extends IdObject, ZF extends
 		CriteriaQuery<Long> cq = builder.createQuery(Long.class);
 		Root<T> root = cq.from(getEntityClass());
 		cq.select(builder.count(cq.from(getEntityClass())));
-		Predicate where = createWhere(root, builder, filter);
+		List<Predicate> where = createWhere(root, builder, filter);
 		if (where != null)
 		{
-			cq.where(where);
+			cq.where(where.toArray(new Predicate[where.size()]));
 		}
 		return cq;
 	}
 
-	protected abstract Predicate createWhere(Root<T> root, CriteriaBuilder builder, ZF filter);
+	protected abstract List<Predicate> createWhere(Root<T> root, CriteriaBuilder builder, ZF filter);
 
 	protected abstract Class<T> getEntityClass();
 
