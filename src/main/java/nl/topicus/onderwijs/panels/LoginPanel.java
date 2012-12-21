@@ -6,6 +6,7 @@ import nl.topicus.onderwijs.dao.filters.AccountZoekFilter;
 import nl.topicus.onderwijs.entities.Account;
 import nl.topicus.onderwijs.pages.evenement.EvenementenPage;
 import nl.topicus.onderwijs.providers.AccountProvider;
+import nl.topicus.onderwijs.security.AuthenticationUtil;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -54,8 +55,16 @@ public class LoginPanel extends Panel
 				}
 				if (authenticated)
 				{
-
-					setResponsePage(EvenementenPage.class);
+					try
+					{
+						AuthenticationUtil.loggedOn(provider, username);
+						setResponsePage(EvenementenPage.class);
+					}
+					catch (Exception e)
+					{
+						error("Fout tijdens het inloggen");
+						e.printStackTrace();
+					}
 				}
 				else
 				{

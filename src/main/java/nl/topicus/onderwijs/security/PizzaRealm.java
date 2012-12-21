@@ -1,6 +1,6 @@
 package nl.topicus.onderwijs.security;
 
-import nl.topicus.onderwijs.resources.ldap.AuthenticateLDAP;
+import nl.topicus.onderwijs.resources.ldap.LDAPUtil;
 
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -47,7 +47,7 @@ public class PizzaRealm implements Realm
 		}
 		else
 		{
-			return AuthenticateLDAP.authenticate("baas2.topicus.local", "TOPICUS", username,
+			return LDAPUtil.authenticate("baas2.topicus.local", "TOPICUS", username,
 				password);
 		}
 	}

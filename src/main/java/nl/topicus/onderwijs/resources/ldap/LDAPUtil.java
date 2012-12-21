@@ -14,7 +14,7 @@ import com.sun.jndi.ldap.LdapCtxFactory;
  * 
  * @author Joost
  */
-public class AuthenticateLDAP
+public class LDAPUtil
 {
 	public static boolean authenticate(String server, String domain, String username,
 			String password)

@@ -18,6 +18,8 @@ import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.util.Factory;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.request.Request;
+import org.apache.wicket.request.Response;
 import org.jboss.weld.environment.servlet.Listener;
 import org.joda.time.DateTime;
 
@@ -114,5 +116,11 @@ public class WicketApplication extends WebApplication
 	public EntityManagerFactory getPersistenceFactory()
 	{
 		return factory;
+	}
+
+	@Override
+	public PizzaSession newSession(Request request, Response response)
+	{
+		return new PizzaSession(request);
 	}
 }
