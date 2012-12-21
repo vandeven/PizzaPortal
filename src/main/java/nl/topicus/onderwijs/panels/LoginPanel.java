@@ -30,6 +30,13 @@ public class LoginPanel extends Panel
 	public LoginPanel(String id)
 	{
 		super(id);
+
+		if (AuthenticationUtil.isLoggedIn())
+		{
+			setResponsePage(EvenementenPage.class);
+			return;
+		}
+
 		Form<Void> form = new Form<Void>("form")
 		{
 			private static final long serialVersionUID = 1L;
@@ -58,9 +65,7 @@ public class LoginPanel extends Panel
 
 				if (authenticated)
 				{
-
 					setResponsePage(EvenementenPage.class);
-
 				}
 				else
 				{

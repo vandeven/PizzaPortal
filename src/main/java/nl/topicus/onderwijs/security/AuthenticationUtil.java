@@ -14,6 +14,12 @@ import org.apache.shiro.subject.Subject;
 
 public class AuthenticationUtil
 {
+	public static boolean isLoggedIn()
+	{
+		Subject currentUser = SecurityUtils.getSubject();
+		return currentUser.isAuthenticated();
+	}
+
 	public static void loggedOff()
 	{
 		Subject subject = SecurityUtils.getSubject();
