@@ -3,17 +3,56 @@ package nl.topicus.onderwijs.panels.menu;
 import nl.topicus.onderwijs.pages.HomePage;
 import nl.topicus.onderwijs.security.AuthenticationUtil;
 
+import org.apache.wicket.behavior.AttributeAppender;
+import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.Model;
+
+import com.google.common.collect.Lists;
 
 public class MenuPanel extends Panel
 {
 
 	private static final long serialVersionUID = 1L;
 
-	public MenuPanel(String id)
+	public MenuPanel(String id, final MenuItem menuItem)
 	{
 		super(id);
+		add(new ListView<MenuItem>("menuItems", Lists.newArrayList(MenuItem.values()))
+		{
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void populateItem(final ListItem<MenuItem> item)
+			{
+				WebMarkupContainer container = new WebMarkupContainer("container");
+				if (item.getModelObject() == menuItem)
+				{
+					container.add(new AttributeAppender("class", new Model<String>("active")));
+				}
+				Link<Void> menuLink = new Link<Void>("menuLink")
+				{
+
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void onClick()
+					{
+						setResponsePage(item.getModelObject().getMenuLink());
+					}
+
+				};
+				menuLink.add(new Label("menuText", item.getModelObject().toString()));
+				container.add(menuLink);
+				item.add(container);
+			}
+
+		});
 		add(new Link<Void>("logout")
 		{
 
@@ -28,5 +67,4 @@ public class MenuPanel extends Panel
 
 		});
 	}
-
 }

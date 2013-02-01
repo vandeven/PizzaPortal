@@ -5825,3 +5825,39 @@ code {
   list-style: none;
   list-style-type: none;
 }
+.pizzapagination .goto, .pizzapagination .prev, .pizzapagination .first, .pizzapagination .next, .pizzapagination .last{
+	  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  margin: 2px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+.maaltijd {
+	width: 300px;
+	height: 30px;
+	border: 1px solid red;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	margin: 2px;
+	background-color: #ad1d28;
+}
+
+.maaltijdText{
+	display: inline-block; 
+	vertical-align:middle; 
+	margin: 0 0 23px;
+	width:260px;
+}
+
+.pizzaImage {
+	width:30px;
+	height:30px;
+	background-image: url("/img/pizza.png");
+	display: inline-block;
+	margin-left: 2px;
+	margin-right: 2px;
+}

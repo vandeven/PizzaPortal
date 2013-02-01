@@ -8,10 +8,13 @@ import nl.topicus.onderwijs.dao.filters.EvenementZoekFilter;
 import nl.topicus.onderwijs.dao.providers.EvenementenDataProvider;
 import nl.topicus.onderwijs.entities.Evenement;
 import nl.topicus.onderwijs.pages.AbstractMenuBasePage;
+import nl.topicus.onderwijs.panels.menu.MenuItem;
 
+import org.apache.wicket.extensions.markup.html.repeater.data.table.NavigatorLabel;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.navigation.paging.PagingNavigator;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.Model;
@@ -50,7 +53,7 @@ public class EvenementenPage extends AbstractMenuBasePage
 		filterForm.add(datumField);
 		add(filterForm);
 
-		ClickableDataView<Evenement> listView =
+		ClickableDataView<Evenement> dataView =
 			new ClickableDataView<Evenement>("evenementenList", new EvenementenDataProvider(filter))
 			{
 
@@ -74,7 +77,16 @@ public class EvenementenPage extends AbstractMenuBasePage
 				}
 
 			};
-		add(listView);
+		dataView.setItemsPerPage(5);
+		add(dataView);
+		add(new NavigatorLabel("navlabel", dataView));
+		add(new PagingNavigator("nav", dataView));
+	}
+
+	@Override
+	public MenuItem getMenuItem()
+	{
+		return MenuItem.Evenementen;
 	}
 
 }

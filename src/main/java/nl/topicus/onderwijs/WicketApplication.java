@@ -15,6 +15,8 @@ import nl.topicus.cobra.converters.TimeConverter;
 import nl.topicus.cobra.entities.Time;
 import nl.topicus.onderwijs.entities.Account;
 import nl.topicus.onderwijs.entities.Evenement;
+import nl.topicus.onderwijs.entities.Maaltijd;
+import nl.topicus.onderwijs.entities.Maaltijd.MaaltijdCategorie;
 import nl.topicus.onderwijs.pages.HomePage;
 import nl.topicus.onderwijs.pages.evenement.EvenementDetailPage;
 
@@ -82,8 +84,7 @@ public class WicketApplication extends WebApplication
 
 	private void addTestData()
 	{
-		Account newAccount = new Account();
-		newAccount.setGebruikersnaam("pietje");
+		Account newAccount = new Account("pietje");
 		newAccount.saveOrUpdateAndCommit();
 
 		Evenement evenement = new Evenement(newAccount, new Date());
@@ -115,6 +116,10 @@ public class WicketApplication extends WebApplication
 		evenement6.setNaam("test6");
 		evenement6.setLokatie("testlocatie6");
 		evenement6.saveOrUpdateAndCommit();
+
+		new Maaltijd(MaaltijdCategorie.Pizza, "margaritha", "kaas").saveOrUpdateAndCommit();
+		new Maaltijd(MaaltijdCategorie.Pizza, "quatro fromaggi", "4 kazen").saveOrUpdateAndCommit();
+		new Maaltijd(MaaltijdCategorie.Pizza, "baas", "bazenspul").saveOrUpdateAndCommit();
 	}
 
 	@Override

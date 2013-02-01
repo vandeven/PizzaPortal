@@ -9,18 +9,25 @@
 				</div>
 				<div class="span4 well well-large">
 					<h1>Eten</h1>
-					<ul>
-						<li>Pizza1</li>
-						<li>Pizza2</li>
-						<li>Pizza3</li>
-						<li>Pizza4</li>
-					</ul>
+					<div wicket:id="maaltijdenListContainer">
+						<div wicket:id="maaltijdenList" class="maaltijd">
+							<div wicket:id="image"></div>
+							<p class="maaltijdText">
+								<span wicket:id="categorie"></span> <span wicket:id="naam"></span>
+							</p>
+						</div>
+					</div>
 				</div>
-				<div class="span4 well well-large">
+				<div class="span4 well well-large" wicket:id="besteldeMaaltijdenListContainer">
 					<h1>Bestellingen</h1>
-					<ul>
-						<li>Pizza1 <a><i class="icon-remove"></i></a></li>
-					</ul>
+					<div wicket:id="besteldeMaaltijdenList" class="maaltijd">
+						<div wicket:id="image"></div>
+						<p class="maaltijdText">
+							<span wicket:id="categorie"></span> 
+							<span wicket:id="naam"></span> (<span wicket:id="aantal"></span>)
+							<a wicket:id="del"><i class="icon-remove" style="float:right;"/></a>
+						</p>
+					</div>					
 				</div>				
 				<div class="span2">
 				</div>				

@@ -32,9 +32,8 @@ public class Evenement extends Entiteit
 
 	private String lokatie;
 
-	public Evenement()
+	protected Evenement()
 	{
-
 	}
 
 	public Evenement(Account evenementHost, Date datum)

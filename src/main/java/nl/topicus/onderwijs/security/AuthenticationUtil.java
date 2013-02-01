@@ -44,8 +44,7 @@ public class AuthenticationUtil
 
 		if (accounts.isEmpty())
 		{
-			acc = new Account();
-			acc.setGebruikersnaam(username);
+			acc = new Account(username);
 			acc.saveAndCommit();
 		}
 		else if (accounts.size() == 1)

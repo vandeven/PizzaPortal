@@ -4,6 +4,7 @@ import nl.topicus.cobra.modelsv2.ModelFactory;
 import nl.topicus.onderwijs.EvenementParameterDecoder;
 import nl.topicus.onderwijs.entities.Evenement;
 import nl.topicus.onderwijs.pages.AbstractMenuBasePage;
+import nl.topicus.onderwijs.panels.menu.MenuItem;
 
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.IModel;
@@ -33,5 +34,11 @@ public class EvenementDetailPage extends AbstractMenuBasePage
 			}
 
 		});
+	}
+
+	@Override
+	public MenuItem getMenuItem()
+	{
+		return MenuItem.Evenementen;
 	}
 }
