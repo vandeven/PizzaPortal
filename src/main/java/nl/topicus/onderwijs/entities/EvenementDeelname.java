@@ -31,7 +31,7 @@ public class EvenementDeelname extends Entiteit
 	@RestrictedAccess(hasSetter = false)
 	private Evenement evenement;
 
-	public EvenementDeelname()
+	protected EvenementDeelname()
 	{
 
 	}

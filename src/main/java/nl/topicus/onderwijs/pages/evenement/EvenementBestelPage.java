@@ -4,9 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import nl.topicus.cobra.util.ComponentUtil;
+import nl.topicus.onderwijs.PizzaSession;
 import nl.topicus.onderwijs.dao.filters.MaaltijdZoekFilter;
 import nl.topicus.onderwijs.dao.providers.MaaltijdDataProvider;
 import nl.topicus.onderwijs.entities.Evenement;
+import nl.topicus.onderwijs.entities.EvenementDeelname;
+import nl.topicus.onderwijs.entities.EvenementMaaltijd;
 import nl.topicus.onderwijs.entities.Maaltijd;
 import nl.topicus.onderwijs.pages.AbstractSecureBasePage;
 import nl.topicus.onderwijs.panels.menu.MenuItem;
@@ -18,6 +22,7 @@ import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.repeater.Item;
@@ -36,8 +41,11 @@ public class EvenementBestelPage extends AbstractSecureBasePage
 
 	private HashMap<Long, Integer> besteldeMaaltijdenMap;
 
+	private IModel<Evenement> evenementModel;
+
 	public EvenementBestelPage(IModel<Evenement> evenement)
 	{
+		this.evenementModel = evenement;
 		besteldeMaaltijdenMap = new HashMap<Long, Integer>();
 		MaaltijdZoekFilter maaltijdFilter = new MaaltijdZoekFilter();
 		DataView<Maaltijd> maaltijdenList =
@@ -116,6 +124,38 @@ public class EvenementBestelPage extends AbstractSecureBasePage
 
 			};
 		besteldeMaaltijdenListContainer.add(besteldeMaaltijdenList);
+		besteldeMaaltijdenListContainer.add(new Link<Void>("bestellingAfronden")
+		{
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void onClick()
+			{
+				Evenement evenement = evenementModel.getObject();
+				MaaltijdProvider provider = new MaaltijdProvider();
+
+				EvenementDeelname deelname =
+					new EvenementDeelname(PizzaSession.get().getAccount().getObject(), evenement);
+				deelname.save();
+
+				List<EvenementMaaltijd> evenementMaaltijdList = new ArrayList<EvenementMaaltijd>();
+				for (Long id : getBesteldeMaaltijdenMap().keySet())
+				{
+					Maaltijd maaltijd = provider.get(id);
+					EvenementMaaltijd evenementMaaltijd =
+						new EvenementMaaltijd(deelname, maaltijd, getBesteldeMaaltijdenMap()
+							.get(id));
+					evenementMaaltijd.save();
+					evenementMaaltijdList.add(evenementMaaltijd);
+				}
+				deelname.setMaaltijden(evenementMaaltijdList);
+				deelname.update();
+				deelname.commit();
+				setResponsePage(new EvenementDetailPage(evenementModel));
+			}
+
+		});
 	}
 
 	private HashMap<Long, Integer> getBesteldeMaaltijdenMap()
@@ -166,5 +206,12 @@ public class EvenementBestelPage extends AbstractSecureBasePage
 			target.add(getPage().get("besteldeMaaltijdenListContainer"));
 		}
 
+	}
+
+	@Override
+	protected void onDetach()
+	{
+		ComponentUtil.detachQuietly(evenementModel);
+		super.onDetach();
 	}
 }

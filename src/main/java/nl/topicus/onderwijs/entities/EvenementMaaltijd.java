@@ -1,5 +1,6 @@
 package nl.topicus.onderwijs.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -26,15 +27,19 @@ public class EvenementMaaltijd extends Entiteit
 	@RestrictedAccess(hasSetter = false)
 	private Maaltijd maaltijd;
 
-	public EvenementMaaltijd()
+	@Column(nullable = false)
+	private int aantal;
+
+	protected EvenementMaaltijd()
 	{
 
 	}
 
-	public EvenementMaaltijd(EvenementDeelname deelname, Maaltijd maaltijd)
+	public EvenementMaaltijd(EvenementDeelname deelname, Maaltijd maaltijd, int aantal)
 	{
 		this.deelname = deelname;
 		this.maaltijd = maaltijd;
+		this.aantal = aantal;
 	}
 
 	public EvenementDeelname getDeelname()
@@ -45,6 +50,16 @@ public class EvenementMaaltijd extends Entiteit
 	public Maaltijd getMaaltijd()
 	{
 		return maaltijd;
+	}
+
+	public int getAantal()
+	{
+		return aantal;
+	}
+
+	public void setAantal(int aantal)
+	{
+		this.aantal = aantal;
 	}
 
 }
