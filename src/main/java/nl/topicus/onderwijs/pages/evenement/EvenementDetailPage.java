@@ -2,7 +2,10 @@ package nl.topicus.onderwijs.pages.evenement;
 
 import nl.topicus.cobra.modelsv2.ModelFactory;
 import nl.topicus.onderwijs.EvenementParameterDecoder;
+import nl.topicus.onderwijs.PizzaSession;
 import nl.topicus.onderwijs.entities.Evenement;
+import nl.topicus.onderwijs.entities.EvenementDeelname;
+import nl.topicus.onderwijs.models.EclipseLinkModel;
 import nl.topicus.onderwijs.pages.AbstractMenuBasePage;
 import nl.topicus.onderwijs.panels.menu.MenuItem;
 
@@ -20,7 +23,7 @@ public class EvenementDetailPage extends AbstractMenuBasePage
 		this(ModelFactory.getModel(EvenementParameterDecoder.decodeParameters(parameters)));
 	}
 
-	public EvenementDetailPage(IModel<Evenement> evenement)
+	public EvenementDetailPage(final IModel<Evenement> evenement)
 	{
 		add(new Link<Evenement>("joinEvent", evenement)
 		{
@@ -30,7 +33,13 @@ public class EvenementDetailPage extends AbstractMenuBasePage
 			@Override
 			public void onClick()
 			{
-				setResponsePage(new EvenementBestelPage(getModel()));
+				EvenementDeelname deelname =
+					new EvenementDeelname(PizzaSession.get().getAccount().getObject(),
+						evenement.getObject());
+				deelname.saveAndCommit();
+
+				setResponsePage(new EvenementBestelPage(new EclipseLinkModel<EvenementDeelname>(
+					deelname)));
 			}
 
 		});

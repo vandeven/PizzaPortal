@@ -1,5 +1,6 @@
 package nl.topicus.onderwijs.providers;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -31,6 +32,18 @@ public class PredicateBuilder
 	public PredicateBuilder addLike(String property, Object obj)
 	{
 		predicates.add(builder.like(root.<String> get(property), "%" + obj + "%"));
+		return this;
+	}
+
+	public PredicateBuilder addGe(String property, Date obj)
+	{
+		predicates.add(builder.greaterThanOrEqualTo(root.<Date> get(property), obj));
+		return this;
+	}
+
+	public PredicateBuilder addLower(String property, Date obj)
+	{
+		predicates.add(builder.lessThan(root.<Date> get(property), obj));
 		return this;
 	}
 

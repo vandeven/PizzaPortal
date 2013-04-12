@@ -84,7 +84,7 @@ public class WicketApplication extends WebApplication
 
 	private void addTestData()
 	{
-		Account newAccount = new Account("pietje");
+		Account newAccount = new Account("limburg");
 		newAccount.saveOrUpdateAndCommit();
 
 		Evenement evenement = new Evenement(newAccount, new Date());

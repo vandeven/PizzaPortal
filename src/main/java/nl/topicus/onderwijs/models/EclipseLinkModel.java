@@ -47,6 +47,7 @@ public class EclipseLinkModel<T extends IdObject> implements IDetachable, IModel
 		setProperties(entiteit);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void setProperties(T entiteit)
 	{
 		if (entiteit == null)

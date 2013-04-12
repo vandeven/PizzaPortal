@@ -15,7 +15,7 @@ public abstract class AbstractMenuBasePage extends AbstractBasePage
 		this(null);
 	}
 
-	public AbstractMenuBasePage(PageParameters parameters)
+	public AbstractMenuBasePage(@SuppressWarnings("unused") PageParameters parameters)
 	{
 		add(new MenuPanel("menu", getMenuItem()));
 	}

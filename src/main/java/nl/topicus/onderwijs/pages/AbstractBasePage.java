@@ -18,7 +18,7 @@ public abstract class AbstractBasePage extends WebPage
 		this(null);
 	}
 
-	public AbstractBasePage(PageParameters parameters)
+	public AbstractBasePage(@SuppressWarnings("unused") PageParameters parameters)
 	{
 		add(new Link<Void>("home")
 		{

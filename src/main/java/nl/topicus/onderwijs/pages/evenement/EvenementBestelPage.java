@@ -5,10 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import nl.topicus.cobra.util.ComponentUtil;
-import nl.topicus.onderwijs.PizzaSession;
 import nl.topicus.onderwijs.dao.filters.MaaltijdZoekFilter;
 import nl.topicus.onderwijs.dao.providers.MaaltijdDataProvider;
-import nl.topicus.onderwijs.entities.Evenement;
 import nl.topicus.onderwijs.entities.EvenementDeelname;
 import nl.topicus.onderwijs.entities.EvenementMaaltijd;
 import nl.topicus.onderwijs.entities.Maaltijd;
@@ -41,12 +39,16 @@ public class EvenementBestelPage extends AbstractSecureBasePage
 
 	private HashMap<Long, Integer> besteldeMaaltijdenMap;
 
-	private IModel<Evenement> evenementModel;
+	private List<Long> verwijderdeMaaltijdenMap = new ArrayList<Long>();
 
-	public EvenementBestelPage(IModel<Evenement> evenement)
+	private IModel<EvenementDeelname> evenementDeelnameModel;
+
+	public EvenementBestelPage(IModel<EvenementDeelname> evenementDeelname)
 	{
-		this.evenementModel = evenement;
-		besteldeMaaltijdenMap = new HashMap<Long, Integer>();
+		this.evenementDeelnameModel = evenementDeelname;
+
+		vulBesteldeMaaltijden();
+
 		MaaltijdZoekFilter maaltijdFilter = new MaaltijdZoekFilter();
 		DataView<Maaltijd> maaltijdenList =
 			new DataView<Maaltijd>("maaltijdenList", new MaaltijdDataProvider(maaltijdFilter))
@@ -100,18 +102,19 @@ public class EvenementBestelPage extends AbstractSecureBasePage
 
 						private static final long serialVersionUID = 1L;
 
+						@SuppressWarnings("unchecked")
 						@Override
 						public void onClick(AjaxRequestTarget target)
 						{
 							Long key = getModelObject();
-							Integer aantal = getBesteldeMaaltijdenMap().get(key);
-							if (aantal == 1)
+							Integer aantal = getBesteldeMaaltijdenMap().get(key) - 1;
+							if (aantal < 1)
 							{
 								getBesteldeMaaltijdenMap().remove(key);
+								getVerwijderdeMaaltijden().add(key);
 							}
 							else
 							{
-								aantal--;
 								getBesteldeMaaltijdenMap().put(key, aantal);
 							}
 							((ListView<Long>) getPage().get(
@@ -119,6 +122,7 @@ public class EvenementBestelPage extends AbstractSecureBasePage
 								.setModel(new BesteldeMaaltijdModel());
 							target.add(getPage().get("besteldeMaaltijdenListContainer:"));
 						}
+
 					});
 				}
 
@@ -132,30 +136,78 @@ public class EvenementBestelPage extends AbstractSecureBasePage
 			@Override
 			public void onClick()
 			{
-				Evenement evenement = evenementModel.getObject();
 				MaaltijdProvider provider = new MaaltijdProvider();
 
-				EvenementDeelname deelname =
-					new EvenementDeelname(PizzaSession.get().getAccount().getObject(), evenement);
-				deelname.save();
+				EvenementDeelname deelname = evenementDeelnameModel.getObject();
 
 				List<EvenementMaaltijd> evenementMaaltijdList = new ArrayList<EvenementMaaltijd>();
+
+				for (Long id : getVerwijderdeMaaltijden())
+				{
+					// TODO
+					//
+					// for (EvenementMaaltijd m :
+					// evenementDeelnameModel.getObject().getMaaltijden())
+					// {
+					// if (m.getMaaltijd().getId() == id)
+					// {
+					// EvenementMaaltijdProvider emProvider = new
+					// EvenementMaaltijdProvider();
+					// EvenementMaaltijd z =
+					// emProvider.getReference(EvenementMaaltijd.class, id);
+					// emProvider.remove(z);
+					// }
+					// }
+				}
+
 				for (Long id : getBesteldeMaaltijdenMap().keySet())
 				{
 					Maaltijd maaltijd = provider.get(id);
-					EvenementMaaltijd evenementMaaltijd =
-						new EvenementMaaltijd(deelname, maaltijd, getBesteldeMaaltijdenMap()
-							.get(id));
-					evenementMaaltijd.save();
+
+					// Kijk of maaltijd al een deelname heeft
+					EvenementMaaltijd evenementMaaltijd = null;
+					for (EvenementMaaltijd eMaaltijd : evenementDeelnameModel.getObject()
+						.getMaaltijden())
+					{
+						if (eMaaltijd.getMaaltijd().getId() == id)
+							evenementMaaltijd = eMaaltijd;
+					}
+
+					if (evenementMaaltijd == null)
+					{
+						evenementMaaltijd =
+							new EvenementMaaltijd(deelname, maaltijd, getBesteldeMaaltijdenMap()
+								.get(id));
+						evenementMaaltijd.save();
+					}
+					else
+					{
+						evenementMaaltijd.setAantal(getBesteldeMaaltijdenMap().get(id));
+						evenementMaaltijd.updateAndCommit();
+					}
 					evenementMaaltijdList.add(evenementMaaltijd);
 				}
 				deelname.setMaaltijden(evenementMaaltijdList);
-				deelname.update();
-				deelname.commit();
-				setResponsePage(new EvenementDetailPage(evenementModel));
+				deelname.updateAndCommit();
+
+				setResponsePage(EvenementenPage.class);
 			}
 
 		});
+	}
+
+	private List<Long> getVerwijderdeMaaltijden()
+	{
+		return verwijderdeMaaltijdenMap;
+	}
+
+	private void vulBesteldeMaaltijden()
+	{
+		besteldeMaaltijdenMap = new HashMap<Long, Integer>();
+		for (EvenementMaaltijd eMaaltijd : evenementDeelnameModel.getObject().getMaaltijden())
+		{
+			besteldeMaaltijdenMap.put(eMaaltijd.getMaaltijd().getId(), eMaaltijd.getAantal());
+		}
 	}
 
 	private HashMap<Long, Integer> getBesteldeMaaltijdenMap()
@@ -190,13 +242,13 @@ public class EvenementBestelPage extends AbstractSecureBasePage
 		@Override
 		protected void drop(AjaxRequestTarget target, Component source, Component dropped)
 		{
+			@SuppressWarnings("unchecked")
 			Item<Maaltijd> item = (Item<Maaltijd>) dropped;
 			Maaltijd maaltijd = item.getModelObject();
 
 			if (getBesteldeMaaltijdenMap().containsKey(maaltijd.getId()))
 			{
-				Integer value = getBesteldeMaaltijdenMap().get(maaltijd.getId());
-				value = value + 1;
+				Integer value = getBesteldeMaaltijdenMap().get(maaltijd.getId()) + 1;
 				getBesteldeMaaltijdenMap().put(maaltijd.getId(), value);
 			}
 			else
@@ -211,7 +263,7 @@ public class EvenementBestelPage extends AbstractSecureBasePage
 	@Override
 	protected void onDetach()
 	{
-		ComponentUtil.detachQuietly(evenementModel);
+		ComponentUtil.detachQuietly(evenementDeelnameModel);
 		super.onDetach();
 	}
 }

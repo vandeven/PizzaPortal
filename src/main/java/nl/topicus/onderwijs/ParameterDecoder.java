@@ -28,7 +28,7 @@ public abstract class ParameterDecoder
 		}
 	}
 
-	protected static Long getLongValue(PageParameters parameters, String key, String description)
+	protected static Long getLongValue(PageParameters parameters, String key)
 	{
 		try
 		{

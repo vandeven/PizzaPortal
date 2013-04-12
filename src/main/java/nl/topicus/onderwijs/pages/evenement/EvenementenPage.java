@@ -3,12 +3,17 @@ package nl.topicus.onderwijs.pages.evenement;
 import java.util.Date;
 
 import nl.topicus.cobra.web.components.text.DatumField;
+import nl.topicus.onderwijs.PizzaSession;
 import nl.topicus.onderwijs.components.ClickableDataView;
+import nl.topicus.onderwijs.dao.filters.EvenementDeelnameZoekFilter;
 import nl.topicus.onderwijs.dao.filters.EvenementZoekFilter;
 import nl.topicus.onderwijs.dao.providers.EvenementenDataProvider;
 import nl.topicus.onderwijs.entities.Evenement;
+import nl.topicus.onderwijs.entities.EvenementDeelname;
+import nl.topicus.onderwijs.models.EclipseLinkModel;
 import nl.topicus.onderwijs.pages.AbstractMenuBasePage;
 import nl.topicus.onderwijs.panels.menu.MenuItem;
+import nl.topicus.onderwijs.providers.EvenementDeelnameProvider;
 
 import org.apache.wicket.extensions.markup.html.repeater.data.table.NavigatorLabel;
 import org.apache.wicket.markup.html.basic.Label;
@@ -28,6 +33,8 @@ public class EvenementenPage extends AbstractMenuBasePage
 	public EvenementenPage()
 	{
 		EvenementZoekFilter filter = new EvenementZoekFilter();
+		filter.addOrderByProperty("datum");
+		filter.setAscending(false);
 
 		Form<EvenementZoekFilter> filterForm =
 			new Form<EvenementZoekFilter>("filterForm",
@@ -62,7 +69,18 @@ public class EvenementenPage extends AbstractMenuBasePage
 				@Override
 				public void onClick(Item<Evenement> item)
 				{
-					setResponsePage(new EvenementDetailPage(item.getModel()));
+					EvenementDeelnameZoekFilter filter = new EvenementDeelnameZoekFilter();
+					filter.setAccount(PizzaSession.get().getAccount());
+					filter.setEvenement(item.getModel());
+
+					EvenementDeelnameProvider provider = new EvenementDeelnameProvider();
+
+					if (provider.count(filter) == 0)
+
+						setResponsePage(new EvenementDetailPage(item.getModel()));
+					else
+						setResponsePage(new EvenementBestelPage(
+							new EclipseLinkModel<EvenementDeelname>(provider.list(filter).get(0))));
 				}
 
 				@Override

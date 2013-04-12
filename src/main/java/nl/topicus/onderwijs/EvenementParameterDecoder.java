@@ -20,7 +20,7 @@ public class EvenementParameterDecoder extends ParameterDecoder
 		isAuthenticated(parameters);
 		checkHasValue(parameters, eventId);
 
-		Long nummer = getLongValue(parameters, eventId, eventId);
+		Long nummer = getLongValue(parameters, eventId);
 		if (nummer != null)
 		{
 			return null;

@@ -1,5 +1,6 @@
 package nl.topicus.onderwijs.providers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -7,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -116,6 +118,12 @@ public abstract class AbstractPersistenceProvider<T extends IdObject, ZF extends
 		return entiteit;
 	}
 
+	@SuppressWarnings("unchecked")
+	public T getReference(Class< ? > entityClass, Long primaryKey)
+	{
+		return (T) em.getReference(entityClass, primaryKey);
+	}
+
 	protected CriteriaBuilder getCriteriaBuilder()
 	{
 		return em.getCriteriaBuilder();
@@ -131,6 +139,20 @@ public abstract class AbstractPersistenceProvider<T extends IdObject, ZF extends
 		if (where != null)
 		{
 			cq.where(where.toArray(new Predicate[where.size()]));
+		}
+
+		if (filter.getOrderByList() != null && filter.getOrderByList().size() > 0)
+		{
+			List<Order> orderingList = new ArrayList<Order>();
+
+			for (String field : filter.getOrderByList())
+			{
+				if (filter.isAscending())
+					orderingList.add(builder.asc(root.get(field)));
+				else
+					orderingList.add(builder.desc(root.get(field)));
+			}
+			cq.orderBy(orderingList);
 		}
 		return cq;
 	}

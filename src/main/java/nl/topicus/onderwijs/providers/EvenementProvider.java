@@ -21,13 +21,20 @@ public class EvenementProvider extends AbstractPersistenceProvider<Evenement, Ev
 		PredicateBuilder builder = new PredicateBuilder(root, cb);
 
 		if (filter.getNaam() != null)
-		{
+
 			builder.addLike("naam", filter.getNaam());
-		}
+
 		if (filter.getDatum() != null)
-		{
 			builder.addEq("datum", filter.getDatum());
-		}
+
+		if (filter.getVoorDatum() != null)
+			builder.addLower("datum", filter.getVoorDatum());
+
+		if (filter.getOpOfNaDatum() != null)
+			builder.addGe("datum", filter.getOpOfNaDatum());
+		if (filter.getAccount() != null && filter.getAccount().getObject() != null)
+			builder.addEq("evenementHost", filter.getAccount().getObject());
+
 		return builder.build();
 	}
 

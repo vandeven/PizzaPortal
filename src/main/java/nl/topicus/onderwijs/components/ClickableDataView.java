@@ -76,9 +76,6 @@ public abstract class ClickableDataView<T extends Serializable> extends Exportab
 
 		/**
 		 * Voegt de onClick event toe aan de listitem. Indien dit is toegestaan.
-		 * 
-		 * @return true als de link inderdaad clickable is, false als er geen onclick aan
-		 *         de link is toegevoegd.
 		 */
 		public void addOnClickAttribute()
 		{
