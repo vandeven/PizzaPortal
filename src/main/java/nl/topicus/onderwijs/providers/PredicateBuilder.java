@@ -47,6 +47,12 @@ public class PredicateBuilder
 		return this;
 	}
 
+	public PredicateBuilder addIn(String property, List<Long> ids)
+	{
+		predicates.add(builder.in(root.get(property).in(ids)));
+		return this;
+	}
+
 	public List<Predicate> build()
 	{
 		return predicates;

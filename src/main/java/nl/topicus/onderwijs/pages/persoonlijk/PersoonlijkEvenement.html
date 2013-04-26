@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+	<head>
+	</head>
+	<body>
+		<wicket:extend>
+			<div class="row-fluid">
+				<div class="span2">
+				</div>
+				<div class="span4 well well-large">
+					<h1>Pizza bestel lijst</h1>
+					<ul>
+						<li wicket:id="aantalPizzasList"> 
+							<span wicket:id="aantal"></span>
+							<span wicket:id="maaltijd"></span>
+						</li>
+					</ul>
+						
+				</div>
+				<div class="span4 well well-large">
+					<h1>wie heeft welke pizza</h1>
+					<ul>
+						<li wicket:id="pizzaPerPersoonDataView">
+							<span wicket:id="naam"></span>
+							<ul>
+								<li wicket:id="maaltijden">
+									<span wicket:id="aantal"></span>
+									<span wicket:id="maaltijd"></span>
+								</li>	
+							</ul>					
+						</li>
+					</ul>
+				</div>									
+				<div class="span2">
+				</div>				
+			</div>			
+		</wicket:extend>		
+	</body>
+</html>

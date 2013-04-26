@@ -10,7 +10,7 @@ import nl.topicus.onderwijs.dao.providers.MaaltijdDataProvider;
 import nl.topicus.onderwijs.entities.EvenementDeelname;
 import nl.topicus.onderwijs.entities.EvenementMaaltijd;
 import nl.topicus.onderwijs.entities.Maaltijd;
-import nl.topicus.onderwijs.pages.AbstractSecureBasePage;
+import nl.topicus.onderwijs.pages.AbstractMenuBasePage;
 import nl.topicus.onderwijs.panels.menu.MenuItem;
 import nl.topicus.onderwijs.providers.MaaltijdProvider;
 
@@ -33,7 +33,7 @@ import org.odlabs.wiquery.ui.draggable.DraggableHelper;
 import org.odlabs.wiquery.ui.droppable.DroppableBehavior;
 import org.odlabs.wiquery.ui.droppable.DroppableBehavior.AjaxDropCallback;
 
-public class EvenementBestelPage extends AbstractSecureBasePage
+public class EvenementBestelPage extends AbstractMenuBasePage
 {
 	private static final long serialVersionUID = 1L;
 
@@ -142,7 +142,8 @@ public class EvenementBestelPage extends AbstractSecureBasePage
 
 				List<EvenementMaaltijd> evenementMaaltijdList = new ArrayList<EvenementMaaltijd>();
 
-				for (Long id : getVerwijderdeMaaltijden())
+				for (@SuppressWarnings("unused")
+				Long id : getVerwijderdeMaaltijden())
 				{
 					// TODO
 					//

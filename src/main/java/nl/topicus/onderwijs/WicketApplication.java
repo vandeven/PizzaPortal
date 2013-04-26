@@ -18,12 +18,12 @@ import nl.topicus.onderwijs.entities.Evenement;
 import nl.topicus.onderwijs.entities.Maaltijd;
 import nl.topicus.onderwijs.entities.Maaltijd.MaaltijdCategorie;
 import nl.topicus.onderwijs.pages.HomePage;
+import nl.topicus.onderwijs.pages.evenement.EvenementBestelPage;
 import nl.topicus.onderwijs.pages.evenement.EvenementDetailPage;
+import nl.topicus.onderwijs.pages.evenement.EvenementenPage;
+import nl.topicus.onderwijs.pages.persoonlijk.PersoonlijkPage;
 
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.config.IniSecurityManagerFactory;
-import org.apache.shiro.mgt.SecurityManager;
-import org.apache.shiro.util.Factory;
+import org.apache.wicket.Application;
 import org.apache.wicket.ConverterLocator;
 import org.apache.wicket.IConverterLocator;
 import org.apache.wicket.markup.html.WebPage;
@@ -33,6 +33,8 @@ import org.apache.wicket.request.Response;
 import org.apache.wicket.util.convert.converter.DateConverter;
 import org.jboss.weld.environment.servlet.Listener;
 import org.joda.time.DateTime;
+import org.wicketstuff.shiro.annotation.AnnotationsShiroAuthorizationStrategy;
+import org.wicketstuff.shiro.authz.ShiroUnauthorizedComponentListener;
 
 /**
  * Application object for your web application. If you want to run this application
@@ -64,6 +66,8 @@ public class WicketApplication extends WebApplication
 	{
 		super.init();
 
+		Application.get().getMarkupSettings().setStripWicketTags(true);
+
 		BeanManager manager =
 			(BeanManager) getServletContext().getAttribute(Listener.BEAN_MANAGER_ATTRIBUTE_NAME);
 
@@ -77,14 +81,17 @@ public class WicketApplication extends WebApplication
 
 	private void setSecuritySettings()
 	{
-		Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro.ini");
-		SecurityManager securityManager = factory.getInstance();
-		SecurityUtils.setSecurityManager(securityManager);
+		// Configure Shiro
+		AnnotationsShiroAuthorizationStrategy authz = new AnnotationsShiroAuthorizationStrategy();
+		getSecuritySettings().setAuthorizationStrategy(authz);
+		getSecuritySettings().setUnauthorizedComponentInstantiationListener(
+			new ShiroUnauthorizedComponentListener(HomePage.class, HomePage.class, authz));
+
 	}
 
 	private void addTestData()
 	{
-		Account newAccount = new Account("limburg");
+		Account newAccount = new Account("test");
 		newAccount.saveOrUpdateAndCommit();
 
 		Evenement evenement = new Evenement(newAccount, new Date());
@@ -155,7 +162,11 @@ public class WicketApplication extends WebApplication
 
 	private void setBookmarkablePages()
 	{
-		mountPage(EvenementParameterDecoder.getPath(), EvenementDetailPage.class);
+		mountPage("start/persoonlijk", PersoonlijkPage.class);
+		mountPage("start/evenement/detail", EvenementDetailPage.class);
+		mountPage("start/evenement/bestel", EvenementBestelPage.class);
+		mountPage("start/evenementen", EvenementenPage.class);
+		mountPage("start/", HomePage.class);
 	}
 
 	public EntityManagerFactory getPersistenceFactory()

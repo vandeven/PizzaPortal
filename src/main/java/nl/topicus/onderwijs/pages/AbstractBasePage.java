@@ -5,7 +5,6 @@ import nl.topicus.onderwijs.resources.bootstrap.BootstrapHeaderItem;
 import org.apache.wicket.feedback.FeedbackMessage;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
@@ -20,18 +19,6 @@ public abstract class AbstractBasePage extends WebPage
 
 	public AbstractBasePage(@SuppressWarnings("unused") PageParameters parameters)
 	{
-		add(new Link<Void>("home")
-		{
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void onClick()
-			{
-				setResponsePage(HomePage.class);
-			}
-
-		});
 		add(new FeedbackPanel("feedback")
 		{
 			private static final long serialVersionUID = 1L;

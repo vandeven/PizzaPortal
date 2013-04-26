@@ -5,29 +5,19 @@ import java.util.Date;
 import nl.topicus.onderwijs.dao.filters.EvenementZoekFilter;
 import nl.topicus.onderwijs.dao.providers.EvenementenDataProvider;
 import nl.topicus.onderwijs.entities.Evenement;
-import nl.topicus.onderwijs.pages.evenement.EvenementenPage;
 import nl.topicus.onderwijs.panels.LoginPanel;
 
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
-import org.apache.wicket.RestartResponseAtInterceptPageException;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 public class HomePage extends AbstractBasePage
 {
 	private static final long serialVersionUID = 1L;
 
-	public HomePage(final PageParameters parameters)
+	public HomePage()
 	{
-		Subject user = SecurityUtils.getSubject();
-		if (user.isAuthenticated())
-		{
-			throw new RestartResponseAtInterceptPageException(EvenementenPage.class, parameters);
-		}
 		add(new LoginPanel("loginPanel"));
 
 		addEvents("upcomingEventList", false);

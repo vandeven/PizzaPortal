@@ -2,6 +2,7 @@ package nl.topicus.onderwijs.security;
 
 import nl.topicus.onderwijs.resources.ldap.LDAPUtil;
 
+import org.apache.log4j.Logger;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -11,6 +12,8 @@ import org.apache.shiro.realm.Realm;
 
 public class PizzaRealm implements Realm
 {
+
+	private static Logger log = Logger.getLogger(PizzaRealm.class);
 
 	@Override
 	public String getName()
@@ -36,6 +39,8 @@ public class PizzaRealm implements Realm
 		{
 			throw new AuthenticationException("Login name [" + username + "] not found!");
 		}
+
+		log.info("User [" + username + "] logged in successfully.");
 		return new SimpleAuthenticationInfo(username, password, getName());
 	}
 
@@ -47,8 +52,7 @@ public class PizzaRealm implements Realm
 		}
 		else
 		{
-			return LDAPUtil.authenticate("baas2.topicus.local", "TOPICUS", username,
-				password);
+			return LDAPUtil.authenticate("baas2.topicus.local", "TOPICUS", username, password);
 		}
 	}
 }

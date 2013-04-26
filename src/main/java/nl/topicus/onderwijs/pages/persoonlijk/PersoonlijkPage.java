@@ -3,13 +3,14 @@ package nl.topicus.onderwijs.pages.persoonlijk;
 import java.util.Date;
 
 import nl.topicus.onderwijs.PizzaSession;
+import nl.topicus.onderwijs.components.ClickableDataView;
 import nl.topicus.onderwijs.dao.filters.EvenementDeelnameZoekFilter;
 import nl.topicus.onderwijs.dao.filters.EvenementZoekFilter;
 import nl.topicus.onderwijs.dao.providers.EvenementDeelnameDataProvider;
 import nl.topicus.onderwijs.dao.providers.EvenementenDataProvider;
 import nl.topicus.onderwijs.entities.Evenement;
 import nl.topicus.onderwijs.entities.EvenementDeelname;
-import nl.topicus.onderwijs.pages.AbstractSecureBasePage;
+import nl.topicus.onderwijs.pages.AbstractMenuBasePage;
 import nl.topicus.onderwijs.panels.menu.MenuItem;
 
 import org.apache.wicket.markup.html.basic.Label;
@@ -17,7 +18,7 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.Model;
 
-public class PersoonlijkPage extends AbstractSecureBasePage
+public class PersoonlijkPage extends AbstractMenuBasePage
 {
 
 	private static final long serialVersionUID = 1L;
@@ -30,8 +31,8 @@ public class PersoonlijkPage extends AbstractSecureBasePage
 		eventFilter.setAccount(PizzaSession.get().getAccount());
 		eventFilter.setAscending(true);
 
-		DataView<Evenement> eventList =
-			new DataView<Evenement>("eigenEvent", new EvenementenDataProvider(eventFilter))
+		ClickableDataView<Evenement> eventList =
+			new ClickableDataView<Evenement>("eigenEvent", new EvenementenDataProvider(eventFilter))
 			{
 
 				private static final long serialVersionUID = 1L;
@@ -42,6 +43,12 @@ public class PersoonlijkPage extends AbstractSecureBasePage
 					Evenement event = item.getModelObject();
 					item.add(new Label("datum", new Model<Date>(event.getDatum())));
 					item.add(new Label("naam", event.getNaam()));
+				}
+
+				@Override
+				public void onClick(Item<Evenement> item)
+				{
+					setResponsePage(new PersoonlijkEvenement(item.getModel()));
 				}
 
 			};

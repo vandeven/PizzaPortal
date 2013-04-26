@@ -3,6 +3,8 @@ package nl.topicus.onderwijs.panels.menu;
 import nl.topicus.onderwijs.pages.HomePage;
 import nl.topicus.onderwijs.security.AuthenticationUtil;
 
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -35,15 +37,16 @@ public class MenuPanel extends Panel
 				{
 					container.add(new AttributeAppender("class", new Model<String>("active")));
 				}
-				Link<Void> menuLink = new Link<Void>("menuLink")
+				AjaxLink<Void> menuLink = new AjaxLink<Void>("menuLink")
 				{
 
 					private static final long serialVersionUID = 1L;
 
 					@Override
-					public void onClick()
+					public void onClick(AjaxRequestTarget target)
 					{
 						setResponsePage(item.getModelObject().getMenuLink());
+
 					}
 
 				};

@@ -184,6 +184,12 @@
 			<artifactId>joda-time</artifactId>
 			<version>2.1</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.wicketstuff</groupId>
+			<artifactId>wicketstuff-shiro</artifactId>
+			<version>6.5.0</version>
+		</dependency>
 
 	</dependencies>
 	<build>
