@@ -18,12 +18,16 @@ import nl.topicus.onderwijs.entities.Evenement;
 import nl.topicus.onderwijs.entities.Maaltijd;
 import nl.topicus.onderwijs.entities.Maaltijd.MaaltijdCategorie;
 import nl.topicus.onderwijs.pages.HomePage;
+import nl.topicus.onderwijs.pages.evenement.EvenementBestelPage;
 import nl.topicus.onderwijs.pages.evenement.EvenementDetailPage;
+import nl.topicus.onderwijs.pages.evenement.EvenementenPage;
+import nl.topicus.onderwijs.pages.persoonlijk.PersoonlijkPage;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.config.IniSecurityManagerFactory;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.util.Factory;
+import org.apache.wicket.Application;
 import org.apache.wicket.ConverterLocator;
 import org.apache.wicket.IConverterLocator;
 import org.apache.wicket.markup.html.WebPage;
@@ -63,6 +67,8 @@ public class WicketApplication extends WebApplication
 	public void init()
 	{
 		super.init();
+
+		Application.get().getMarkupSettings().setStripWicketTags(true);
 
 		BeanManager manager =
 			(BeanManager) getServletContext().getAttribute(Listener.BEAN_MANAGER_ATTRIBUTE_NAME);
@@ -155,7 +161,11 @@ public class WicketApplication extends WebApplication
 
 	private void setBookmarkablePages()
 	{
-		mountPage(EvenementParameterDecoder.getPath(), EvenementDetailPage.class);
+		mountPage("persoonlijk", PersoonlijkPage.class);
+		mountPage("evenement/detail", EvenementDetailPage.class);
+		mountPage("evenement/bestel", EvenementBestelPage.class);
+		mountPage("evenementen", EvenementenPage.class);
+		mountPage("start", HomePage.class);
 	}
 
 	public EntityManagerFactory getPersistenceFactory()
