@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
@@ -25,7 +26,7 @@ public class Entiteit implements Serializable, TransientIdObject
 	private EntityManager em = null;
 
 	@Id()
-	@GeneratedValue()
+	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "PizzaSequence")
 	@AccessType("property")
 	private Long id;
 

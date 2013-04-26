@@ -161,11 +161,11 @@ public class WicketApplication extends WebApplication
 
 	private void setBookmarkablePages()
 	{
-		mountPage("persoonlijk", PersoonlijkPage.class);
-		mountPage("evenement/detail", EvenementDetailPage.class);
-		mountPage("evenement/bestel", EvenementBestelPage.class);
-		mountPage("evenementen", EvenementenPage.class);
-		mountPage("start", HomePage.class);
+		mountPage("start/persoonlijk", PersoonlijkPage.class);
+		mountPage("start/evenement/detail", EvenementDetailPage.class);
+		mountPage("start/evenement/bestel", EvenementBestelPage.class);
+		mountPage("start/evenementen", EvenementenPage.class);
+		mountPage("start/", HomePage.class);
 	}
 
 	public EntityManagerFactory getPersistenceFactory()
