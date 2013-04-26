@@ -142,7 +142,8 @@ public class EvenementBestelPage extends AbstractMenuBasePage
 
 				List<EvenementMaaltijd> evenementMaaltijdList = new ArrayList<EvenementMaaltijd>();
 
-				for (Long id : getVerwijderdeMaaltijden())
+				for (@SuppressWarnings("unused")
+				Long id : getVerwijderdeMaaltijden())
 				{
 					// TODO
 					//
