@@ -1,9 +1,13 @@
 package nl.topicus.onderwijs;
 
 import org.apache.wicket.util.time.Duration;
+import org.eclipse.jetty.server.Connector;
+import org.eclipse.jetty.server.HttpConfiguration;
+import org.eclipse.jetty.server.HttpConnectionFactory;
+import org.eclipse.jetty.server.SecureRequestCustomizer;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.bio.SocketConnector;
-import org.eclipse.jetty.server.ssl.SslSocketConnector;
+import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.server.SslConnectionFactory;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.webapp.WebAppContext;
@@ -16,13 +20,12 @@ public class Start
 		int timeout = (int) Duration.ONE_HOUR.getMilliseconds();
 
 		Server server = new Server();
-		SocketConnector connector = new SocketConnector();
-
-		// Set some timeout options to make debugging easier.
-		connector.setMaxIdleTime(timeout);
-		connector.setSoLingerTime(-1);
-		connector.setPort(8080);
-		server.addConnector(connector);
+		ServerConnector http = new ServerConnector(server, new HttpConnectionFactory());
+		http.setPort(8080);
+		http.setIdleTimeout(30000);
+		http.setSoLingerTime(-1);
+		http.setPort(8080);
+		server.setConnectors(new Connector[] {http});
 
 		Resource keystore = Resource.newClassPathResource("/keystore");
 		if (keystore != null && keystore.exists())
@@ -34,17 +37,24 @@ public class Start
 			// use this certificate anywhere important as the passwords are
 			// available in the source.
 
-			connector.setConfidentialPort(8443);
-
 			SslContextFactory factory = new SslContextFactory();
 			factory.setKeyStoreResource(keystore);
 			factory.setKeyStorePassword("wicket");
 			factory.setTrustStoreResource(keystore);
 			factory.setKeyManagerPassword("wicket");
-			SslSocketConnector sslConnector = new SslSocketConnector(factory);
-			sslConnector.setMaxIdleTime(timeout);
+
+			// HTTPS Configuration
+			HttpConfiguration httpsConfig = new HttpConfiguration();
+			httpsConfig.addCustomizer(new SecureRequestCustomizer());
+
+			// HTTPS connector
+			ServerConnector sslConnector =
+				new ServerConnector(server, new SslConnectionFactory(factory, "http/1.1"),
+					new HttpConnectionFactory(httpsConfig));
+			sslConnector.setIdleTimeout(500000);
+
+			sslConnector.setIdleTimeout(timeout);
 			sslConnector.setPort(8443);
-			sslConnector.setAcceptors(4);
 			server.addConnector(sslConnector);
 
 			System.out.println("SSL access to the quickstart has been enabled on port 8443");
