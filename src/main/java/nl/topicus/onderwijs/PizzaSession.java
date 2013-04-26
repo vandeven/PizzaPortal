@@ -10,6 +10,8 @@ public class PizzaSession extends WebSession
 {
 	private static final long serialVersionUID = 1L;
 
+	private boolean loggedIn;
+
 	private IModel<Account> account = null;
 
 	public static PizzaSession get()
@@ -30,6 +32,16 @@ public class PizzaSession extends WebSession
 	public void setAccount(IModel<Account> account)
 	{
 		this.account = account;
+	}
+
+	public boolean isLoggedIn()
+	{
+		return loggedIn;
+	}
+
+	public void setLoggedIn(boolean loggedIn)
+	{
+		this.loggedIn = loggedIn;
 	}
 
 }

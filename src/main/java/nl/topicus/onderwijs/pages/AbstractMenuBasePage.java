@@ -4,8 +4,11 @@ import nl.topicus.onderwijs.panels.menu.MenuItem;
 import nl.topicus.onderwijs.panels.menu.MenuPanel;
 
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.wicketstuff.shiro.ShiroConstraint;
+import org.wicketstuff.shiro.annotation.ShiroSecurityConstraint;
 
-public abstract class AbstractMenuBasePage extends AbstractSecureBasePage
+@ShiroSecurityConstraint(constraint = ShiroConstraint.IsAuthenticated)
+public abstract class AbstractMenuBasePage extends AbstractBasePage
 {
 
 	private static final long serialVersionUID = 1L;

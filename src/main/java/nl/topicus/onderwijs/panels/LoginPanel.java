@@ -7,6 +7,7 @@ import nl.topicus.onderwijs.providers.AccountProvider;
 import nl.topicus.onderwijs.security.AuthenticationUtil;
 
 import org.apache.shiro.authc.AuthenticationException;
+import org.apache.wicket.RestartResponseAtInterceptPageException;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.SubmitLink;
@@ -60,12 +61,13 @@ public class LoginPanel extends Panel
 
 				if (authenticated)
 				{
-					setResponsePage(EvenementenPage.class);
+					throw new RestartResponseAtInterceptPageException(EvenementenPage.class);
 				}
 				else
 				{
 					error("Geen correcte username/password combinatie");
 				}
+
 			}
 		};
 		add(form);

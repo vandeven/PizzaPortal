@@ -12,16 +12,21 @@ public abstract class AbstractSecureBasePage extends AbstractBasePage
 
 	public AbstractSecureBasePage()
 	{
-		this(null);
+		authenticate(null);
 	}
 
 	public AbstractSecureBasePage(PageParameters parameters)
 	{
+		authenticate(parameters);
+	}
+
+	private void authenticate(PageParameters parameters)
+	{
 		Subject user = SecurityUtils.getSubject();
+
 		if (!user.isAuthenticated())
 		{
 			throw new RestartResponseAtInterceptPageException(HomePage.class, parameters);
 		}
 	}
-
 }

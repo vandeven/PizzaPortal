@@ -23,10 +23,6 @@ import nl.topicus.onderwijs.pages.evenement.EvenementDetailPage;
 import nl.topicus.onderwijs.pages.evenement.EvenementenPage;
 import nl.topicus.onderwijs.pages.persoonlijk.PersoonlijkPage;
 
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.config.IniSecurityManagerFactory;
-import org.apache.shiro.mgt.SecurityManager;
-import org.apache.shiro.util.Factory;
 import org.apache.wicket.Application;
 import org.apache.wicket.ConverterLocator;
 import org.apache.wicket.IConverterLocator;
@@ -37,6 +33,8 @@ import org.apache.wicket.request.Response;
 import org.apache.wicket.util.convert.converter.DateConverter;
 import org.jboss.weld.environment.servlet.Listener;
 import org.joda.time.DateTime;
+import org.wicketstuff.shiro.annotation.AnnotationsShiroAuthorizationStrategy;
+import org.wicketstuff.shiro.authz.ShiroUnauthorizedComponentListener;
 
 /**
  * Application object for your web application. If you want to run this application
@@ -83,9 +81,12 @@ public class WicketApplication extends WebApplication
 
 	private void setSecuritySettings()
 	{
-		Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro.ini");
-		SecurityManager securityManager = factory.getInstance();
-		SecurityUtils.setSecurityManager(securityManager);
+		// Configure Shiro
+		AnnotationsShiroAuthorizationStrategy authz = new AnnotationsShiroAuthorizationStrategy();
+		getSecuritySettings().setAuthorizationStrategy(authz);
+		getSecuritySettings().setUnauthorizedComponentInstantiationListener(
+			new ShiroUnauthorizedComponentListener(HomePage.class, HomePage.class, authz));
+
 	}
 
 	private void addTestData()
