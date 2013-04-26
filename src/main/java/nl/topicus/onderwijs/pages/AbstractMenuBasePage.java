@@ -5,7 +5,7 @@ import nl.topicus.onderwijs.panels.menu.MenuPanel;
 
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-public abstract class AbstractMenuBasePage extends AbstractBasePage
+public abstract class AbstractMenuBasePage extends AbstractSecureBasePage
 {
 
 	private static final long serialVersionUID = 1L;

@@ -9,7 +9,7 @@ import nl.topicus.onderwijs.dao.providers.EvenementDeelnameDataProvider;
 import nl.topicus.onderwijs.dao.providers.EvenementenDataProvider;
 import nl.topicus.onderwijs.entities.Evenement;
 import nl.topicus.onderwijs.entities.EvenementDeelname;
-import nl.topicus.onderwijs.pages.AbstractSecureBasePage;
+import nl.topicus.onderwijs.pages.AbstractMenuBasePage;
 import nl.topicus.onderwijs.panels.menu.MenuItem;
 
 import org.apache.wicket.markup.html.basic.Label;
@@ -17,7 +17,7 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.Model;
 
-public class PersoonlijkPage extends AbstractSecureBasePage
+public class PersoonlijkPage extends AbstractMenuBasePage
 {
 
 	private static final long serialVersionUID = 1L;
