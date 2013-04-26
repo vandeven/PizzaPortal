@@ -150,16 +150,15 @@ body {
   font-family: 'Cabin', Verdana, sans-serif;
   font-size: 14px;
   line-height: 20px;
-/*   color: rgba(255, 255, 255, 0.9); */
-  color: #ffffff;
+  color: rgba(255, 255, 255, 0.9);
   background-color: #003f4d;
 }
 a {
-  color: #FAB51C;
+  color: #e8d069;
   text-decoration: none;
 }
 a:hover {
-  color: #FAB51C;
+  color: #e8d069;
   text-decoration: underline;
 }
 .img-rounded {
@@ -2448,7 +2447,7 @@ table th[class*="span"],
   min-height: 20px;
   padding: 19px;
   margin-bottom: 20px;
-  background-color: #5FDCE9;
+  background-color: #3cb9c6;
   border: 1px solid #32a1ac;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
   -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
@@ -4015,10 +4014,7 @@ input[type="submit"].btn.btn-mini {
   color: #aaaaaa;
 }
 .pagination {
-	background-color:#1ba7b4;
-	font-size: 1.3em;
-	padding: 4px 0px;
- 	margin: 20px 0;
+  margin: 20px 0;
 }
 .pagination ul {
   display: inline-block;
@@ -4044,7 +4040,7 @@ input[type="submit"].btn.btn-mini {
   padding: 4px 12px;
   line-height: 20px;
   text-decoration: none;
-  background-color: #5FDCE9;
+  background-color: #3cb9c6;
   border: 1px solid transparent;
   border-left-width: 0;
 }
@@ -4971,7 +4967,7 @@ a.badge:hover {
   font-weight: 200;
   line-height: 30px;
   color: inherit;
-  background-color: #5FDCE9;
+  background-color: #3cb9c6;
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   border-radius: 6px;
@@ -5035,10 +5031,10 @@ blockquote small {
 }
 body {
   background-color: #0f8790;
-  background-image: -webkit-gradient(radial, center center, 0, center center, 460, from(#FFFFFF), to(#E5E5E5));
-  background-image: -webkit-radial-gradient(circle, #FFFFFF, #E5E5E5);
-  background-image: -moz-radial-gradient(circle, #FFFFFF, #E5E5E5);
-  background-image: -o-radial-gradient(circle, #FFFFFF, #E5E5E5);
+  background-image: -webkit-gradient(radial, center center, 0, center center, 460, from(#12a5b0), to(#0f8790));
+  background-image: -webkit-radial-gradient(circle, #12a5b0, #0f8790);
+  background-image: -moz-radial-gradient(circle, #12a5b0, #0f8790);
+  background-image: -o-radial-gradient(circle, #12a5b0, #0f8790);
   background-repeat: no-repeat;
 }
 hr {
@@ -5224,7 +5220,7 @@ div.subnav-fixed {
   border-bottom: 1px solid rgba(255, 255, 255, 0.5);
 }
 .nav-tabs > li > a {
-  background-color: #5FDCE9;
+  background-color: #3CB9C6;
 }
 .nav-tabs.nav-stacked li > a:first-child,
 .nav-tabs.nav-stacked li > a:last-child {
@@ -5271,7 +5267,7 @@ div.subnav-fixed {
   text-shadow: none;
 }
 .breadcrumb {
-  background-color: #5FDCE9;
+  background-color: #3CB9C6;
   background-image: none;
 }
 .breadcrumb li {
@@ -5284,7 +5280,7 @@ div.subnav-fixed {
   color: #e8d069;
 }
 .pagination ul {
-  background-color: #5FDCE9;
+  background-color: #3cb9c6;
   background-image: none;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -5314,14 +5310,14 @@ div.subnav-fixed {
   color: rgba(255, 255, 255, 0.9);
 }
 .pager li > a {
-  background-color: #5FDCE9;
+  background-color: #3CB9C6;
 }
 .pager li > a:hover {
   background-color: #8AD5DC;
 }
 .pager .disabled a,
 .pager .disabled a:hover {
-  background-color: #5FDCE9;
+  background-color: #3CB9C6;
   color: #ffffff;
 }
 .btn {
@@ -5851,20 +5847,15 @@ code {
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
 }
 
-.goto{
-	padding: 2px 5px;
-	background-color: rgba(0, 0, 0, 0.2);
-}
-
 .maaltijd {
 	width: 300px;
 	height: 30px;
-	border: 1px solid red #0F8790;
+	border: 1px solid red;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 	margin: 2px;
-	background-color: #0F8790;
+	background-color: #ad1d28;
 }
 
 .maaltijdText{
