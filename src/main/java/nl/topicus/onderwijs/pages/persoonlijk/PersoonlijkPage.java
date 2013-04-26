@@ -3,6 +3,7 @@ package nl.topicus.onderwijs.pages.persoonlijk;
 import java.util.Date;
 
 import nl.topicus.onderwijs.PizzaSession;
+import nl.topicus.onderwijs.components.ClickableDataView;
 import nl.topicus.onderwijs.dao.filters.EvenementDeelnameZoekFilter;
 import nl.topicus.onderwijs.dao.filters.EvenementZoekFilter;
 import nl.topicus.onderwijs.dao.providers.EvenementDeelnameDataProvider;
@@ -30,8 +31,8 @@ public class PersoonlijkPage extends AbstractMenuBasePage
 		eventFilter.setAccount(PizzaSession.get().getAccount());
 		eventFilter.setAscending(true);
 
-		DataView<Evenement> eventList =
-			new DataView<Evenement>("eigenEvent", new EvenementenDataProvider(eventFilter))
+		ClickableDataView<Evenement> eventList =
+			new ClickableDataView<Evenement>("eigenEvent", new EvenementenDataProvider(eventFilter))
 			{
 
 				private static final long serialVersionUID = 1L;
@@ -42,6 +43,12 @@ public class PersoonlijkPage extends AbstractMenuBasePage
 					Evenement event = item.getModelObject();
 					item.add(new Label("datum", new Model<Date>(event.getDatum())));
 					item.add(new Label("naam", event.getNaam()));
+				}
+
+				@Override
+				public void onClick(Item<Evenement> item)
+				{
+					setResponsePage(new PersoonlijkEvenement(item.getModel()));
 				}
 
 			};

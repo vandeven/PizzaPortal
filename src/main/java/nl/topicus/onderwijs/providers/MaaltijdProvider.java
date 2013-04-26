@@ -13,10 +13,16 @@ public class MaaltijdProvider extends AbstractPersistenceProvider<Maaltijd, Maal
 {
 
 	@Override
-	protected List<Predicate> createWhere(Root<Maaltijd> root, CriteriaBuilder builder,
+	protected List<Predicate> createWhere(Root<Maaltijd> root, CriteriaBuilder cb,
 			MaaltijdZoekFilter filter)
 	{
-		return null;
+		PredicateBuilder builder = new PredicateBuilder(root, cb);
+
+		if (filter.getMaaltijdIds() != null)
+		{
+			builder.addIn("id", filter.getMaaltijdIds());
+		}
+		return builder.build();
 	}
 
 	@Override

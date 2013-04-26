@@ -27,7 +27,11 @@ public class EvenementMaaltijdProvider extends
 	{
 		PredicateBuilder builder = new PredicateBuilder(root, cb);
 
+		if (filter.getEvenementDeelname() != null)
+		{
+			builder.addEq("deelname", filter.getEvenementDeelname().getObject());
+		}
+
 		return builder.build();
 	}
-
 }
