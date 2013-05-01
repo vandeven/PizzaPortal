@@ -20,6 +20,7 @@ import nl.topicus.onderwijs.entities.Maaltijd.MaaltijdCategorie;
 import nl.topicus.onderwijs.pages.HomePage;
 import nl.topicus.onderwijs.pages.evenement.EvenementBestelPage;
 import nl.topicus.onderwijs.pages.evenement.EvenementDetailPage;
+import nl.topicus.onderwijs.pages.evenement.EvenementRegisterPage;
 import nl.topicus.onderwijs.pages.evenement.EvenementenPage;
 import nl.topicus.onderwijs.pages.persoonlijk.PersoonlijkPage;
 
@@ -163,6 +164,7 @@ public class WicketApplication extends WebApplication
 	private void setBookmarkablePages()
 	{
 		mountPage("start/persoonlijk", PersoonlijkPage.class);
+		mountPage("start/evenement/registreer", EvenementRegisterPage.class);
 		mountPage("start/evenement/detail", EvenementDetailPage.class);
 		mountPage("start/evenement/bestel", EvenementBestelPage.class);
 		mountPage("start/evenementen", EvenementenPage.class);
